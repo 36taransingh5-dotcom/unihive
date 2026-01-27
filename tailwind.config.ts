@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +59,24 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        category: {
+          workshop: {
+            bg: "hsl(var(--category-workshop-bg))",
+            fg: "hsl(var(--category-workshop-fg))",
+          },
+          social: {
+            bg: "hsl(var(--category-social-bg))",
+            fg: "hsl(var(--category-social-fg))",
+          },
+          sports: {
+            bg: "hsl(var(--category-sports-bg))",
+            fg: "hsl(var(--category-sports-fg))",
+          },
+          meeting: {
+            bg: "hsl(var(--category-meeting-bg))",
+            fg: "hsl(var(--category-meeting-fg))",
+          },
         },
       },
       borderRadius: {
