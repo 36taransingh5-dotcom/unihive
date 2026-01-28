@@ -1,12 +1,14 @@
 import { EventCard } from '@/components/EventCard';
+import { EmptyState } from '@/components/EmptyState';
 import { groupEventsByTime, timeGroupLabels } from '@/lib/eventGrouping';
-import type { Event, GroupedEvents } from '@/types/event';
+import type { Event, GroupedEvents, FilterType } from '@/types/event';
 
 interface TimeStreamFeedProps {
   events: Event[];
+  activeFilter?: FilterType;
 }
 
-export function TimeStreamFeed({ events }: TimeStreamFeedProps) {
+export function TimeStreamFeed({ events, activeFilter = 'all' }: TimeStreamFeedProps) {
   const groupedEvents = groupEventsByTime(events);
 
   const groupOrder: (keyof GroupedEvents)[] = [
@@ -21,11 +23,7 @@ export function TimeStreamFeed({ events }: TimeStreamFeedProps) {
   );
 
   if (!hasAnyEvents) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">No upcoming events found</p>
-      </div>
-    );
+    return <EmptyState filter={activeFilter} />;
   }
 
   return (
