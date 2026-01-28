@@ -3,15 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { format } from 'date-fns';
+import { format, addWeeks } from 'date-fns';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Header } from '@/components/Header';
+import { MagicFillButton } from '@/components/MagicFillButton';
+import { CategorySelect } from '@/components/CategorySelect';
 import { useAuth } from '@/hooks/useAuth';
 import { useSociety } from '@/hooks/useSociety';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,13 +31,14 @@ const eventSchema = z.object({
   endTime: z.string().min(1, 'End time is required'),
 });
 
-type EventForm = z.infer<typeof eventSchema>;
+type EventFormData = z.infer<typeof eventSchema>;
 
 export default function EventForm() {
   const { id } = useParams();
   const isEditing = !!id;
   const [isLoading, setIsLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEditing);
+  const [repeatWeekly, setRepeatWeekly] = useState(false);
   const { user, loading: authLoading } = useAuth();
   const { data: society } = useSociety();
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ export default function EventForm() {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<EventForm>({
+  } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
       category: 'social',
@@ -93,7 +96,25 @@ export default function EventForm() {
     }
   }, [isEditing, id, society, setValue, toast, navigate]);
 
-  const onSubmit = async (data: EventForm) => {
+  const handleMagicFill = (data: {
+    title: string | null;
+    description: string | null;
+    date: string | null;
+    startTime: string | null;
+    endTime: string | null;
+    location: string | null;
+    category: EventCategory | null;
+  }) => {
+    if (data.title) setValue('title', data.title);
+    if (data.description) setValue('description', data.description);
+    if (data.date) setValue('date', data.date);
+    if (data.startTime) setValue('startTime', data.startTime);
+    if (data.endTime) setValue('endTime', data.endTime);
+    if (data.location) setValue('location', data.location);
+    if (data.category) setValue('category', data.category);
+  };
+
+  const onSubmit = async (data: EventFormData) => {
     if (!society) return;
 
     setIsLoading(true);
@@ -106,14 +127,12 @@ export default function EventForm() {
       endsAt.setDate(endsAt.getDate() + 1);
     }
 
-    const eventData = {
+    const baseEventData = {
       society_id: society.id,
       title: data.title,
       description: data.description || null,
       location: data.location,
       category: data.category as EventCategory,
-      starts_at: startsAt.toISOString(),
-      ends_at: endsAt.toISOString(),
     };
 
     let error;
@@ -121,11 +140,33 @@ export default function EventForm() {
     if (isEditing) {
       const result = await supabase
         .from('events')
-        .update(eventData)
+        .update({
+          ...baseEventData,
+          starts_at: startsAt.toISOString(),
+          ends_at: endsAt.toISOString(),
+        })
         .eq('id', id);
       error = result.error;
+    } else if (repeatWeekly) {
+      // Create 4 recurring events (this week + next 3 weeks)
+      const events = [];
+      for (let i = 0; i < 4; i++) {
+        const weekStartsAt = addWeeks(startsAt, i);
+        const weekEndsAt = addWeeks(endsAt, i);
+        events.push({
+          ...baseEventData,
+          starts_at: weekStartsAt.toISOString(),
+          ends_at: weekEndsAt.toISOString(),
+        });
+      }
+      const result = await supabase.from('events').insert(events);
+      error = result.error;
     } else {
-      const result = await supabase.from('events').insert(eventData);
+      const result = await supabase.from('events').insert({
+        ...baseEventData,
+        starts_at: startsAt.toISOString(),
+        ends_at: endsAt.toISOString(),
+      });
       error = result.error;
     }
 
@@ -138,9 +179,14 @@ export default function EventForm() {
         variant: 'destructive',
       });
     } else {
+      const eventCount = repeatWeekly && !isEditing ? 4 : 1;
       toast({
-        title: isEditing ? 'Event updated!' : 'Event created!',
-        description: isEditing ? 'Your changes have been saved.' : 'Your event is now live.',
+        title: isEditing ? 'Event updated!' : `Success: ${eventCount} ${eventCount > 1 ? 'recurring events' : 'event'} scheduled`,
+        description: isEditing 
+          ? 'Your changes have been saved.' 
+          : repeatWeekly 
+            ? 'Events created for the next 4 weeks.'
+            : 'Your event is now live.',
       });
       queryClient.invalidateQueries({ queryKey: ['society-events'] });
       queryClient.invalidateQueries({ queryKey: ['events'] });
@@ -160,7 +206,7 @@ export default function EventForm() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-safe">
       <Header />
       
       <main className="container max-w-2xl mx-auto px-4 py-6">
@@ -173,8 +219,10 @@ export default function EventForm() {
           <CardHeader>
             <CardTitle>{isEditing ? 'Edit Event' : 'Create New Event'}</CardTitle>
           </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent className="space-y-4">
+          <CardContent>
+            {!isEditing && <MagicFillButton onExtracted={handleMagicFill} />}
+            
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="title">Event Title</Label>
                 <Input
@@ -211,20 +259,10 @@ export default function EventForm() {
 
               <div className="space-y-2">
                 <Label>Category</Label>
-                <Select
+                <CategorySelect
                   value={watch('category')}
-                  onValueChange={(value) => setValue('category', value as EventCategory)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="social">Social</SelectItem>
-                    <SelectItem value="workshop">Workshop</SelectItem>
-                    <SelectItem value="sports">Sports</SelectItem>
-                    <SelectItem value="meeting">Meeting</SelectItem>
-                  </SelectContent>
-                </Select>
+                  onValueChange={(value) => setValue('category', value)}
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -263,17 +301,39 @@ export default function EventForm() {
                 </div>
               </div>
 
+              {!isEditing && (
+                <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="repeat-weekly" className="text-base cursor-pointer">
+                      Repeat Weekly?
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Create this event for the next 4 weeks
+                    </p>
+                  </div>
+                  <Switch
+                    id="repeat-weekly"
+                    checked={repeatWeekly}
+                    onCheckedChange={setRepeatWeekly}
+                  />
+                </div>
+              )}
+
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading
                   ? isEditing
                     ? 'Saving...'
+                    : repeatWeekly
+                    ? 'Creating 4 Events...'
                     : 'Creating...'
                   : isEditing
                   ? 'Save Changes'
+                  : repeatWeekly
+                  ? 'Create 4 Weekly Events'
                   : 'Create Event'}
               </Button>
-            </CardContent>
-          </form>
+            </form>
+          </CardContent>
         </Card>
       </main>
     </div>

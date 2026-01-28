@@ -20,13 +20,13 @@ const Index = () => {
       <Header />
       <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
       
-      <main className="container max-w-2xl mx-auto px-4 py-6">
+      <main className="container max-w-2xl mx-auto px-4 py-6 pb-safe">
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
           </div>
         ) : (
-          <TimeStreamFeed events={filteredEvents} />
+          <TimeStreamFeed events={filteredEvents} activeFilter={activeFilter} />
         )}
       </main>
 
