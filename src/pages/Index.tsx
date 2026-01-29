@@ -11,10 +11,16 @@ import type { FilterType } from '@/types/event';
 
 const Index = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const [aiFilteredEventIds, setAiFilteredEventIds] = useState<string[] | null>(null);
   const { data: events = [], isLoading } = useEvents();
   const { user } = useAuth();
 
   const filteredEvents = filterEvents(events, activeFilter);
+
+  // Handle AI filter change
+  const handleAiFilter = (eventIds: string[] | null) => {
+    setAiFilteredEventIds(eventIds);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,7 +30,7 @@ const Index = () => {
       <main className="container max-w-2xl mx-auto px-4 py-6 pb-safe">
         {/* Ask Hive AI Search */}
         <div className="mb-6">
-          <AskHive events={events} />
+          <AskHive events={events} onFilterEvents={handleAiFilter} />
         </div>
 
         {isLoading ? (
@@ -32,7 +38,11 @@ const Index = () => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
           </div>
         ) : (
-          <TimeStreamFeed events={filteredEvents} activeFilter={activeFilter} />
+          <TimeStreamFeed 
+            events={filteredEvents} 
+            activeFilter={activeFilter}
+            filteredEventIds={aiFilteredEventIds}
+          />
         )}
       </main>
 

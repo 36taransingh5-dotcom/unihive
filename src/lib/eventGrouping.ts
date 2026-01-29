@@ -26,23 +26,23 @@ export function isLaterToday(event: Event): boolean {
 export function groupEventsByTime(events: Event[]): GroupedEvents {
   const now = new Date();
   
-  // Filter out past events
-  const futureEvents = events.filter(event => {
-    const end = new Date(event.ends_at);
-    return isAfter(end, now);
-  });
-
   const grouped: GroupedEvents = {
     'happening-now': [],
     'later-today': [],
     'tomorrow': [],
     'this-week': [],
+    'upcoming': [],
+    'past': [],
   };
 
-  futureEvents.forEach(event => {
+  events.forEach(event => {
     const start = new Date(event.starts_at);
+    const end = new Date(event.ends_at);
     
-    if (isHappeningNow(event)) {
+    // Check if event is in the past
+    if (isBefore(end, now)) {
+      grouped['past'].push(event);
+    } else if (isHappeningNow(event)) {
       grouped['happening-now'].push(event);
     } else if (isLaterToday(event)) {
       grouped['later-today'].push(event);
@@ -50,14 +50,26 @@ export function groupEventsByTime(events: Event[]): GroupedEvents {
       grouped['tomorrow'].push(event);
     } else if (isThisWeek(start, { weekStartsOn: 1 })) {
       grouped['this-week'].push(event);
+    } else {
+      // Future events beyond this week
+      grouped['upcoming'].push(event);
     }
   });
 
-  // Sort each group by start time
+  // Sort each group by start time (ascending for future, descending for past)
   Object.keys(grouped).forEach(key => {
-    grouped[key as keyof GroupedEvents].sort((a, b) => 
-      new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime()
-    );
+    const group = key as keyof GroupedEvents;
+    if (group === 'past') {
+      // Past events: most recent first
+      grouped[group].sort((a, b) => 
+        new Date(b.starts_at).getTime() - new Date(a.starts_at).getTime()
+      );
+    } else {
+      // Future events: soonest first
+      grouped[group].sort((a, b) => 
+        new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime()
+      );
+    }
   });
 
   return grouped;
@@ -87,8 +99,10 @@ export function filterEvents(events: Event[], filter: FilterType): Event[] {
 }
 
 export const timeGroupLabels: Record<keyof GroupedEvents, string> = {
-  'happening-now': 'Happening Now',
-  'later-today': 'Later Today',
-  'tomorrow': 'Tomorrow',
-  'this-week': 'This Week',
+  'happening-now': '🔥 Happening Now',
+  'later-today': '🌤️ Later Today',
+  'tomorrow': '🌅 Tomorrow',
+  'this-week': '📅 This Week',
+  'upcoming': '🔭 Upcoming',
+  'past': '🕰️ Past Events',
 };

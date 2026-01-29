@@ -8,13 +8,15 @@ import type { Event } from '@/types/event';
 
 interface AskHiveProps {
   events: Event[];
+  onFilterEvents: (eventIds: string[] | null) => void;
 }
 
-export function AskHive({ events }: AskHiveProps) {
+export function AskHive({ events, onFilterEvents }: AskHiveProps) {
   const [query, setQuery] = useState('');
   const [answer, setAnswer] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasActiveFilter, setHasActiveFilter] = useState(false);
 
   const handleAsk = async () => {
     if (!query.trim() || isLoading) return;
@@ -37,6 +39,16 @@ export function AskHive({ events }: AskHiveProps) {
       }
 
       setAnswer(data.answer);
+      
+      // Filter events if AI returned relevant IDs
+      if (data.relevant_event_ids && data.relevant_event_ids.length > 0) {
+        onFilterEvents(data.relevant_event_ids);
+        setHasActiveFilter(true);
+      } else {
+        // No matching events - clear filter but keep answer visible
+        onFilterEvents(null);
+        setHasActiveFilter(false);
+      }
     } catch (err) {
       console.error('Ask Hive error:', err);
       setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -52,10 +64,12 @@ export function AskHive({ events }: AskHiveProps) {
     }
   };
 
-  const clearAnswer = () => {
+  const clearSearch = () => {
     setAnswer(null);
     setError(null);
     setQuery('');
+    onFilterEvents(null);
+    setHasActiveFilter(false);
   };
 
   return (
@@ -95,7 +109,7 @@ export function AskHive({ events }: AskHiveProps) {
             <div className="relative bg-gradient-to-br from-primary/5 via-accent/10 to-secondary/20 rounded-2xl p-4 border border-primary/10">
               {/* Close button */}
               <button
-                onClick={clearAnswer}
+                onClick={clearSearch}
                 className="absolute top-2 right-2 p-1 rounded-full hover:bg-background/50 transition-colors"
               >
                 <X className="w-4 h-4 text-muted-foreground" />
@@ -121,6 +135,24 @@ export function AskHive({ events }: AskHiveProps) {
                   )}
                 </div>
               </div>
+
+              {/* Clear Search Button */}
+              {hasActiveFilter && !isLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-3 pt-3 border-t border-primary/10"
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearSearch}
+                    className="w-full rounded-xl text-xs"
+                  >
+                    Clear Search • Show All Events
+                  </Button>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}

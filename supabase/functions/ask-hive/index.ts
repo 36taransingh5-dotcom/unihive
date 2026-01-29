@@ -26,6 +26,7 @@ serve(async (req) => {
     }
 
     const eventsContext = events.map((e: any) => ({
+      id: e.id,
       title: e.title,
       description: e.description,
       location: e.location,
@@ -35,7 +36,7 @@ serve(async (req) => {
       society: e.societies?.name || 'Unknown'
     }));
 
-    const systemPrompt = `You are Hive, a friendly and helpful AI assistant for university students looking for events and activities.
+const systemPrompt = `You are Hive, a friendly and helpful AI assistant for university students looking for events and activities.
 
 Your personality:
 - Warm, encouraging, and student-focused
@@ -50,12 +51,7 @@ Your task:
 - If asking about "chill" activities, suggest workshops or social events
 - If no events match, be honest but encouraging
 
-Format your response:
-- Keep it conversational and brief (2-4 sentences max)
-- Mention specific event names and times when recommending
-- If multiple events match, pick the top 2-3 most relevant
-
-Available events for the next week:
+Available events:
 ${JSON.stringify(eventsContext, null, 2)}`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -70,7 +66,32 @@ ${JSON.stringify(eventsContext, null, 2)}`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: question }
         ],
-        max_tokens: 300,
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "recommend_events",
+              description: "Return a conversational answer and the IDs of relevant events to show the user.",
+              parameters: {
+                type: "object",
+                properties: {
+                  answer: { 
+                    type: "string", 
+                    description: "A friendly, conversational response (2-4 sentences max) mentioning specific event names and times." 
+                  },
+                  relevant_event_ids: { 
+                    type: "array", 
+                    items: { type: "string" },
+                    description: "Array of event IDs that match the user's query. Empty array if no matches."
+                  }
+                },
+                required: ["answer", "relevant_event_ids"],
+                additionalProperties: false
+              }
+            }
+          }
+        ],
+        tool_choice: { type: "function", function: { name: "recommend_events" } },
         temperature: 0.7,
       }),
     });
@@ -94,10 +115,26 @@ ${JSON.stringify(eventsContext, null, 2)}`;
     }
 
     const data = await response.json();
-    const answer = data.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that request.';
+    
+    // Parse the tool call response
+    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
+    let answer = 'Sorry, I couldn\'t process that request.';
+    let relevant_event_ids: string[] = [];
+
+    if (toolCall?.function?.arguments) {
+      try {
+        const args = JSON.parse(toolCall.function.arguments);
+        answer = args.answer || answer;
+        relevant_event_ids = args.relevant_event_ids || [];
+      } catch (e) {
+        console.error('Failed to parse tool call arguments:', e);
+        // Fallback to content if tool call parsing fails
+        answer = data.choices?.[0]?.message?.content || answer;
+      }
+    }
 
     return new Response(
-      JSON.stringify({ answer }),
+      JSON.stringify({ answer, relevant_event_ids }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 

@@ -17,7 +17,6 @@ export function useEvents() {
             logo_url
           )
         `)
-        .gte('ends_at', new Date().toISOString())
         .order('starts_at', { ascending: true });
 
       if (error) throw error;
