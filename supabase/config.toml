@@ -2,3 +2,9 @@ project_id = "bjuailsrocgnhhxatydd"
 
 [functions.extract-event-details]
 verify_jwt = false
+
+[functions.ask-hive]
+verify_jwt = false
+
+[functions.generate-event-image]
+verify_jwt = false

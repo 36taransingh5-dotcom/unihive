@@ -44,7 +44,7 @@ export function EventCard({ event }: EventCardProps) {
     <motion.div
       layout
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-card border border-border rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow"
+      className="bg-card rounded-2xl p-4 cursor-pointer shadow-sm hover:shadow-md transition-all duration-200"
     >
       <div className="flex items-start gap-4">
         {/* Time Column */}

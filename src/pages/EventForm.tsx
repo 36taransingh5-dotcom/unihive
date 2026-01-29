@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Header } from '@/components/Header';
 import { MagicFillButton } from '@/components/MagicFillButton';
 import { CategorySelect } from '@/components/CategorySelect';
+import { ImageGenerator } from '@/components/ImageGenerator';
 import { useAuth } from '@/hooks/useAuth';
 import { useSociety } from '@/hooks/useSociety';
 import { supabase } from '@/integrations/supabase/client';
@@ -39,6 +40,7 @@ export default function EventForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEditing);
   const [repeatWeekly, setRepeatWeekly] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const { user, loading: authLoading } = useAuth();
   const { data: society } = useSociety();
   const navigate = useNavigate();
@@ -262,6 +264,17 @@ export default function EventForm() {
                 <CategorySelect
                   value={watch('category')}
                   onValueChange={(value) => setValue('category', value)}
+                />
+              </div>
+
+              {/* AI Image Generator */}
+              <div className="space-y-2">
+                <Label>Event Cover Image</Label>
+                <ImageGenerator
+                  title={watch('title') || ''}
+                  category={watch('category')}
+                  currentImage={generatedImageUrl}
+                  onImageGenerated={setGeneratedImageUrl}
                 />
               </div>
 
