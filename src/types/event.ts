@@ -28,13 +28,15 @@ export interface Society {
   updated_at: string;
 }
 
-export type TimeGroup = 'happening-now' | 'later-today' | 'tomorrow' | 'this-week';
+export type TimeGroup = 'happening-now' | 'later-today' | 'tomorrow' | 'this-week' | 'upcoming' | 'past';
 
 export interface GroupedEvents {
   'happening-now': Event[];
   'later-today': Event[];
   'tomorrow': Event[];
   'this-week': Event[];
+  'upcoming': Event[];
+  'past': Event[];
 }
 
 export type FilterType = 'all' | 'today' | 'tomorrow' | 'this-week' | 'socials' | 'workshops' | 'sports';
