@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles, Send, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
@@ -11,12 +11,30 @@ interface AskHiveProps {
   onFilterEvents: (eventIds: string[] | null) => void;
 }
 
+const placeholderExamples = [
+  "Where can I find free donuts?",
+  "Any chill workshops this week?",
+  "Find me a gym buddy",
+  "What's happening tonight?",
+  "Any free food events?",
+  "Sports events tomorrow",
+];
+
 export function AskHive({ events, onFilterEvents }: AskHiveProps) {
   const [query, setQuery] = useState('');
   const [answer, setAnswer] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasActiveFilter, setHasActiveFilter] = useState(false);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  // Cycle through placeholder examples
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % placeholderExamples.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleAsk = async () => {
     if (!query.trim() || isLoading) return;
@@ -74,27 +92,29 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
 
   return (
     <div className="space-y-3">
-      {/* Search Input */}
-      <div className="relative">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-          <Sparkles className="w-4 h-4" />
+      {/* Search Input with Glowing Border */}
+      <div className="glow-border p-[1px]">
+        <div className="relative bg-card rounded-[calc(1rem-1px)]">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2">
+            <Sparkles className="w-5 h-5 text-gradient-start sparkle-pulse" />
+          </div>
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={`Ask Hive... "${placeholderExamples[placeholderIndex]}"`}
+            className="pl-12 pr-14 h-14 bg-transparent border-0 rounded-[calc(1rem-1px)] text-base placeholder:text-muted-foreground/60 focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={handleAsk}
+            disabled={!query.trim() || isLoading}
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-gradient-to-r hover:from-gradient-start/10 hover:to-gradient-end/10"
+          >
+            <Send className={`w-5 h-5 ${isLoading ? 'animate-pulse text-gradient-start' : 'text-muted-foreground'}`} />
+          </Button>
         </div>
-        <Input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask Hive... 'Any free food tonight?'"
-          className="pl-10 pr-12 h-12 bg-card border-border rounded-2xl shadow-sm focus-visible:ring-primary/20"
-        />
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={handleAsk}
-          disabled={!query.trim() || isLoading}
-          className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-primary/10"
-        >
-          <Send className={`w-4 h-4 ${isLoading ? 'animate-pulse' : ''}`} />
-        </Button>
       </div>
 
       {/* AI Response Bubble */}
@@ -106,27 +126,27 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
             exit={{ opacity: 0, y: -10, height: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <div className="relative bg-gradient-to-br from-primary/5 via-accent/10 to-secondary/20 rounded-2xl p-4 border border-primary/10">
+            <div className="relative bg-gradient-to-br from-gradient-start/5 via-accent/10 to-gradient-end/10 rounded-2xl p-4 border border-gradient-start/20">
               {/* Close button */}
               <button
                 onClick={clearSearch}
-                className="absolute top-2 right-2 p-1 rounded-full hover:bg-background/50 transition-colors"
+                className="absolute top-2 right-2 p-1.5 rounded-full hover:bg-background/50 transition-colors"
               >
                 <X className="w-4 h-4 text-muted-foreground" />
               </button>
 
               {/* Hive Avatar */}
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-primary-foreground" />
+                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-gradient-start to-gradient-end flex items-center justify-center shadow-lg">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0 pr-6">
-                  <p className="text-xs font-medium text-muted-foreground mb-1">Hive AI</p>
+                  <p className="text-xs font-semibold text-gradient-start mb-1">Hive AI</p>
                   {isLoading ? (
-                    <div className="flex items-center gap-1">
-                      <span className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-primary/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   ) : error ? (
                     <p className="text-sm text-destructive">{error}</p>
@@ -141,13 +161,13 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="mt-3 pt-3 border-t border-primary/10"
+                  className="mt-3 pt-3 border-t border-gradient-start/10"
                 >
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={clearSearch}
-                    className="w-full rounded-xl text-xs"
+                    className="w-full rounded-xl text-xs border-gradient-start/20 hover:bg-gradient-start/5"
                   >
                     Clear Search • Show All Events
                   </Button>

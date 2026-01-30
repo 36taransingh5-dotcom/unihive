@@ -34,6 +34,7 @@ Your job is to extract structured event information and return it as JSON. Be sm
 - Inferring dates from context like "this Friday", "next week", "tomorrow"
 - Recognizing common abbreviations and slang
 - Guessing the category based on keywords
+- Detecting free food mentions and extracting the specific food item
 
 Current date for reference: ${today.toISOString().split('T')[0]}
 
@@ -43,6 +44,14 @@ Categories to choose from:
 - "sports" - games, matches, training, fitness activities  
 - "meeting" - AGMs, committee meetings, general meetings
 
+Southampton University Building Coordinates (use these for accurate location):
+- SUSU Building: 50.9341, -1.3966
+- Building 32 (ECS): 50.9370, -1.3976
+- Building 58: 50.9362, -1.3985
+- Hartley Library: 50.9358, -1.3978
+- Jubilee Sports Centre: 50.9355, -1.3950
+- Highfield Campus (general): 50.9359, -1.3964
+
 Return ONLY valid JSON with this structure:
 {
   "title": "Event Title (cleaned up)",
@@ -51,8 +60,13 @@ Return ONLY valid JSON with this structure:
   "startTime": "HH:MM (24hr format)",
   "endTime": "HH:MM (24hr format, estimate if not given, usually 2 hours after start)",
   "location": "Venue or location",
-  "category": "social|workshop|sports|meeting"
+  "category": "social|workshop|sports|meeting",
+  "foodDetail": "Specific food item if free food is mentioned (Pizza, Donuts, Coffee, etc.) or null if no free food",
+  "latitude": latitude as number or null,
+  "longitude": longitude as number or null
 }
+
+IMPORTANT: If you detect ANY mention of free food, snacks, refreshments, pizza, drinks, donuts, cookies, etc., extract the specific item into foodDetail. Common phrases: "free pizza", "snacks provided", "refreshments available", "free food".
 
 If you cannot extract a field with confidence, use null for that field. For dates without a year, assume ${currentYear}.`;
 

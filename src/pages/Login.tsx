@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -48,10 +49,17 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen mesh-gradient-bg flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-lg border-border/50">
         <CardHeader className="text-center">
-          <Link to="/" className="text-2xl font-bold text-foreground mb-2 block">
+          <Link 
+            to="/" 
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4 self-start"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Student Feed
+          </Link>
+          <Link to="/" className="text-2xl font-extrabold text-foreground mb-2 block">
             Hive
           </Link>
           <CardTitle>Society Login</CardTitle>
@@ -67,6 +75,7 @@ export default function Login() {
                 id="email"
                 type="email"
                 placeholder="society@soton.ac.uk"
+                className="rounded-xl"
                 {...register('email')}
               />
               {errors.email && (
@@ -78,6 +87,7 @@ export default function Login() {
               <Input
                 id="password"
                 type="password"
+                className="rounded-xl"
                 {...register('password')}
               />
               {errors.password && (
@@ -86,12 +96,12 @@ export default function Login() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full rounded-xl" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
               Don't have an account?{' '}
-              <Link to="/register" className="text-primary hover:underline">
+              <Link to="/register" className="text-gradient-start hover:underline font-medium">
                 Register your society
               </Link>
             </p>

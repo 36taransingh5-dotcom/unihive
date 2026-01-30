@@ -1,8 +1,11 @@
-import { Calendar, Search } from 'lucide-react';
+import { Calendar, Search, XCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import type { FilterType } from '@/types/event';
 
 interface EmptyStateProps {
   filter: FilterType;
+  hasAdvancedFilters?: boolean;
+  onClearFilters?: () => void;
 }
 
 const filterMessages: Record<FilterType, { title: string; subtitle: string }> = {
@@ -36,13 +39,17 @@ const filterMessages: Record<FilterType, { title: string; subtitle: string }> = 
   },
 };
 
-export function EmptyState({ filter }: EmptyStateProps) {
-  const message = filterMessages[filter];
+export function EmptyState({ filter, hasAdvancedFilters, onClearFilters }: EmptyStateProps) {
+  const message = hasAdvancedFilters 
+    ? { title: 'No matches found', subtitle: 'Try adjusting your filters to see more events' }
+    : filterMessages[filter];
 
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
       <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-        {filter === 'all' ? (
+        {hasAdvancedFilters ? (
+          <XCircle className="w-8 h-8 text-muted-foreground" />
+        ) : filter === 'all' ? (
           <Calendar className="w-8 h-8 text-muted-foreground" />
         ) : (
           <Search className="w-8 h-8 text-muted-foreground" />
@@ -51,9 +58,14 @@ export function EmptyState({ filter }: EmptyStateProps) {
       <h3 className="text-lg font-semibold text-foreground mb-1">
         {message.title}
       </h3>
-      <p className="text-sm text-muted-foreground max-w-xs">
+      <p className="text-sm text-muted-foreground max-w-xs mb-4">
         {message.subtitle}
       </p>
+      {hasAdvancedFilters && onClearFilters && (
+        <Button variant="outline" onClick={onClearFilters} className="rounded-xl">
+          Clear All Filters
+        </Button>
+      )}
     </div>
   );
 }

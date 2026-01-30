@@ -20,8 +20,12 @@ export type Database = {
           created_at: string
           description: string | null
           ends_at: string
+          food_detail: string | null
           id: string
+          image_url: string | null
+          latitude: number | null
           location: string
+          longitude: number | null
           society_id: string
           starts_at: string
           title: string
@@ -32,8 +36,12 @@ export type Database = {
           created_at?: string
           description?: string | null
           ends_at: string
+          food_detail?: string | null
           id?: string
+          image_url?: string | null
+          latitude?: number | null
           location: string
+          longitude?: number | null
           society_id: string
           starts_at: string
           title: string
@@ -44,8 +52,12 @@ export type Database = {
           created_at?: string
           description?: string | null
           ends_at?: string
+          food_detail?: string | null
           id?: string
+          image_url?: string | null
+          latitude?: number | null
           location?: string
+          longitude?: number | null
           society_id?: string
           starts_at?: string
           title?: string

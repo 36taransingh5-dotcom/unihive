@@ -18,7 +18,7 @@ const filters: { value: FilterType; label: string }[] = [
 
 export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
   return (
-    <div className="sticky top-14 z-40 bg-background border-b border-border">
+    <div className="sticky top-14 z-40 glass border-b border-border/50">
       <div className="container max-w-2xl mx-auto px-4 py-3">
         <div className="flex gap-2 overflow-x-auto hide-scrollbar">
           {filters.map((filter) => (
@@ -26,10 +26,10 @@ export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
               key={filter.value}
               onClick={() => onFilterChange(filter.value)}
               className={cn(
-                'px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors',
+                'px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200',
                 activeFilter === filter.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'bg-secondary/80 text-secondary-foreground hover:bg-secondary'
               )}
             >
               {filter.label}
