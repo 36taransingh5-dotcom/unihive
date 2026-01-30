@@ -1,0 +1,116 @@
+import { Filter, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import type { EventCategory, FilterState, Society } from '@/types/event';
+
+interface AdvancedFiltersProps {
+  filters: FilterState;
+  onFiltersChange: (filters: FilterState) => void;
+  societies: Society[];
+  hasActiveFilters: boolean;
+}
+
+const categories: { value: EventCategory; label: string }[] = [
+  { value: 'social', label: 'Socials' },
+  { value: 'workshop', label: 'Workshops' },
+  { value: 'sports', label: 'Sports' },
+  { value: 'meeting', label: 'Meetings' },
+];
+
+export function AdvancedFilters({
+  filters,
+  onFiltersChange,
+  societies,
+  hasActiveFilters,
+}: AdvancedFiltersProps) {
+  const clearFilters = () => {
+    onFiltersChange({
+      societyId: null,
+      category: null,
+      freeFoodOnly: false,
+    });
+  };
+
+  return (
+    <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar pb-1">
+      {/* Society Filter */}
+      <Select
+        value={filters.societyId || 'all'}
+        onValueChange={(value) =>
+          onFiltersChange({ ...filters, societyId: value === 'all' ? null : value })
+        }
+      >
+        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm">
+          <SelectValue placeholder="All Societies" />
+        </SelectTrigger>
+        <SelectContent className="bg-popover border-border z-50">
+          <SelectItem value="all">All Societies</SelectItem>
+          {societies.map((society) => (
+            <SelectItem key={society.id} value={society.id}>
+              {society.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {/* Category Filter */}
+      <Select
+        value={filters.category || 'all'}
+        onValueChange={(value) =>
+          onFiltersChange({
+            ...filters,
+            category: value === 'all' ? null : (value as EventCategory),
+          })
+        }
+      >
+        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm">
+          <SelectValue placeholder="All Categories" />
+        </SelectTrigger>
+        <SelectContent className="bg-popover border-border z-50">
+          <SelectItem value="all">All Categories</SelectItem>
+          {categories.map((cat) => (
+            <SelectItem key={cat.value} value={cat.value}>
+              {cat.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {/* Free Food Toggle */}
+      <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card border border-border whitespace-nowrap">
+        <Switch
+          id="free-food"
+          checked={filters.freeFoodOnly}
+          onCheckedChange={(checked) =>
+            onFiltersChange({ ...filters, freeFoodOnly: checked })
+          }
+          className="data-[state=checked]:bg-food-fg"
+        />
+        <Label htmlFor="free-food" className="text-sm cursor-pointer">
+          🍕 Free Food
+        </Label>
+      </div>
+
+      {/* Clear Filters */}
+      {hasActiveFilters && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={clearFilters}
+          className="h-9 px-3 rounded-xl text-muted-foreground hover:text-foreground whitespace-nowrap"
+        >
+          <X className="w-4 h-4 mr-1" />
+          Clear
+        </Button>
+      )}
+    </div>
+  );
+}

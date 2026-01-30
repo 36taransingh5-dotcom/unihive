@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Hive Design System - Clean & Pastel */
+/* Hive Design System - Glass & Pastel */
 
 @layer base {
   :root {
@@ -38,6 +38,9 @@
 
     --radius: 0.5rem;
 
+    /* Society name accent color */
+    --society-accent: 215 25% 40%;
+
     /* Category Colors - Pastel */
     --category-workshop-bg: 213 97% 93%;
     --category-workshop-fg: 221 83% 53%;
@@ -50,6 +53,18 @@
     
     --category-meeting-bg: 220 14% 93%;
     --category-meeting-fg: 220 9% 46%;
+
+    /* Food badge colors */
+    --food-badge-bg: 39 100% 93%;
+    --food-badge-fg: 32 95% 44%;
+
+    /* Gradient accent colors for Ask Hive */
+    --gradient-start: 221 83% 53%;
+    --gradient-end: 271 81% 56%;
+
+    /* Glassmorphism */
+    --glass-bg: 0 0% 100% / 0.8;
+    --glass-border: 0 0% 100% / 0.3;
 
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
@@ -66,10 +81,10 @@
     --background: 222 47% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 5%;
+    --card: 222 47% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 5%;
+    --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
@@ -91,6 +106,8 @@
     --input: 217 33% 18%;
     --ring: 213 27% 84%;
 
+    --society-accent: 215 20% 65%;
+
     /* Category Colors - Pastel (Dark Mode) */
     --category-workshop-bg: 221 44% 25%;
     --category-workshop-fg: 213 97% 87%;
@@ -103,6 +120,15 @@
     
     --category-meeting-bg: 220 13% 26%;
     --category-meeting-fg: 220 14% 80%;
+
+    --food-badge-bg: 32 60% 25%;
+    --food-badge-fg: 39 100% 80%;
+
+    --gradient-start: 221 70% 60%;
+    --gradient-end: 271 70% 65%;
+
+    --glass-bg: 222 47% 8% / 0.8;
+    --glass-border: 222 47% 15% / 0.5;
 
     --sidebar-background: 240 6% 10%;
     --sidebar-foreground: 240 5% 96%;
@@ -126,6 +152,76 @@
   }
 }
 
+/* Pastel mesh gradient background */
+.mesh-gradient-bg {
+  background: 
+    radial-gradient(ellipse at 0% 0%, hsl(213 97% 93% / 0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, hsl(327 73% 93% / 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, hsl(152 76% 91% / 0.3) 0%, transparent 50%),
+    hsl(var(--background));
+  background-attachment: fixed;
+}
+
+.dark .mesh-gradient-bg {
+  background: 
+    radial-gradient(ellipse at 0% 0%, hsl(221 44% 25% / 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, hsl(330 45% 25% / 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, hsl(158 44% 20% / 0.2) 0%, transparent 50%),
+    hsl(var(--background));
+  background-attachment: fixed;
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: hsl(var(--glass-bg));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: hsl(var(--glass-border));
+}
+
+/* Glowing gradient border for Ask Hive */
+.glow-border {
+  position: relative;
+  background: hsl(var(--card));
+  border-radius: 1rem;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+  border-radius: calc(1rem + 2px);
+  z-index: -1;
+  opacity: 0.6;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Sparkle pulse animation */
+@keyframes sparkle-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+.sparkle-pulse {
+  animation: sparkle-pulse 2s ease-in-out infinite;
+}
+
 /* Hide scrollbar for filter bar */
 .hide-scrollbar {
   -ms-overflow-style: none;
@@ -145,4 +241,9 @@
   .mb-safe {
     margin-bottom: env(safe-area-inset-bottom);
   }
+}
+
+/* Leaflet map fix */
+.leaflet-container {
+  z-index: 0;
 }

@@ -6,23 +6,23 @@ export function Header() {
   const { user, signOut } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <header className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-foreground">
+        <Link to="/" className="text-xl font-extrabold text-foreground tracking-tight">
           Hive
         </Link>
         
         {user ? (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild className="rounded-xl">
               <Link to="/dashboard">Dashboard</Link>
             </Button>
-            <Button variant="outline" size="sm" onClick={signOut}>
+            <Button variant="outline" size="sm" onClick={signOut} className="rounded-xl">
               Sign Out
             </Button>
           </div>
         ) : (
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild className="rounded-xl">
             <Link to="/login">Society Login</Link>
           </Button>
         )}

@@ -60,6 +60,9 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        society: {
+          accent: "hsl(var(--society-accent))",
+        },
         category: {
           workshop: {
             bg: "hsl(var(--category-workshop-bg))",
@@ -77,6 +80,14 @@ export default {
             bg: "hsl(var(--category-meeting-bg))",
             fg: "hsl(var(--category-meeting-fg))",
           },
+        },
+        food: {
+          bg: "hsl(var(--food-badge-bg))",
+          fg: "hsl(var(--food-badge-fg))",
+        },
+        gradient: {
+          start: "hsl(var(--gradient-start))",
+          end: "hsl(var(--gradient-end))",
         },
       },
       borderRadius: {

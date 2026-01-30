@@ -11,9 +11,17 @@ interface TimeStreamFeedProps {
   events: Event[];
   activeFilter?: FilterType;
   filteredEventIds?: string[] | null;
+  hasAdvancedFilters?: boolean;
+  onClearFilters?: () => void;
 }
 
-export function TimeStreamFeed({ events, activeFilter = 'all', filteredEventIds }: TimeStreamFeedProps) {
+export function TimeStreamFeed({ 
+  events, 
+  activeFilter = 'all', 
+  filteredEventIds,
+  hasAdvancedFilters = false,
+  onClearFilters,
+}: TimeStreamFeedProps) {
   const [isPastOpen, setIsPastOpen] = useState(false);
   
   // If we have filtered event IDs from AI, only show those events
@@ -40,12 +48,12 @@ export function TimeStreamFeed({ events, activeFilter = 'all', filteredEventIds 
 
   // If filtering by AI and no matches found
   if (filteredEventIds && filteredEventIds.length === 0) {
-    return <EmptyState filter={activeFilter} />;
+    return <EmptyState filter={activeFilter} hasAdvancedFilters={hasAdvancedFilters} onClearFilters={onClearFilters} />;
   }
 
   // If no future events and no past events
   if (!hasFutureEvents && !hasPastEvents) {
-    return <EmptyState filter={activeFilter} />;
+    return <EmptyState filter={activeFilter} hasAdvancedFilters={hasAdvancedFilters} onClearFilters={onClearFilters} />;
   }
 
   return (

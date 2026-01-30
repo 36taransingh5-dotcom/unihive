@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Share2 } from 'lucide-react';
+import { MapPin, Calendar, Share2, Navigation } from 'lucide-react';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { CategoryBadge } from '@/components/CategoryBadge';
+import { FoodBadge } from '@/components/FoodBadge';
+import { MiniMap } from '@/components/MiniMap';
 import { downloadIcsFile } from '@/lib/calendar';
 import { shareEvent } from '@/lib/share';
 import { useToast } from '@/hooks/use-toast';
@@ -38,6 +40,22 @@ export function EventCard({ event }: EventCardProps) {
     }
   };
 
+  const handleGetDirections = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (event.latitude && event.longitude) {
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&destination=${event.latitude},${event.longitude}`,
+        '_blank'
+      );
+    } else {
+      // Fallback to search by location name
+      window.open(
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`,
+        '_blank'
+      );
+    }
+  };
+
   const startTime = format(new Date(event.starts_at), 'HH:mm');
 
   return (
@@ -54,17 +72,18 @@ export function EventCard({ event }: EventCardProps) {
 
         {/* Content Column */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-foreground truncate">{event.title}</h3>
-          <p className="text-sm text-muted-foreground">{societyName}</p>
+          <h3 className="font-bold text-foreground truncate">{event.title}</h3>
+          <p className="text-sm text-society-accent font-medium">{societyName}</p>
           <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
             <MapPin className="w-3.5 h-3.5" />
             <span className="truncate">{event.location}</span>
           </div>
         </div>
 
-        {/* Category Badge */}
-        <div className="flex-shrink-0">
+        {/* Badges Column */}
+        <div className="flex-shrink-0 flex flex-col items-end gap-1.5">
           <CategoryBadge category={event.category} />
+          <FoodBadge foodDetail={event.food_detail} />
         </div>
       </div>
 
@@ -79,6 +98,17 @@ export function EventCard({ event }: EventCardProps) {
             className="overflow-hidden"
           >
             <div className="pt-4 mt-4 border-t border-border">
+              {/* Hero Image */}
+              {event.image_url && (
+                <div className="mb-4 -mx-4 -mt-4">
+                  <img
+                    src={event.image_url}
+                    alt={event.title}
+                    className="w-full h-40 object-cover rounded-t-lg"
+                  />
+                </div>
+              )}
+
               {event.description && (
                 <p className="text-sm text-muted-foreground mb-4">
                   {event.description}
@@ -92,12 +122,27 @@ export function EventCard({ event }: EventCardProps) {
                 </span>
               </div>
 
-              <div className="flex gap-2">
-                <Button size="sm" onClick={handleAddToCalendar}>
+              {/* Mini Map */}
+              {event.latitude && event.longitude && (
+                <div className="mb-4">
+                  <MiniMap
+                    latitude={event.latitude}
+                    longitude={event.longitude}
+                    locationName={event.location}
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-2">
+                <Button size="sm" onClick={handleAddToCalendar} className="rounded-xl">
                   <Calendar className="w-4 h-4 mr-2" />
                   Add to Calendar
                 </Button>
-                <Button size="sm" variant="outline" onClick={handleShare}>
+                <Button size="sm" variant="outline" onClick={handleGetDirections} className="rounded-xl">
+                  <Navigation className="w-4 h-4 mr-2" />
+                  Get Directions
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleShare} className="rounded-xl">
                   <Share2 className="w-4 h-4 mr-2" />
                   Share
                 </Button>

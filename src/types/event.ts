@@ -11,6 +11,10 @@ export interface Event {
   ends_at: string;
   created_at: string;
   updated_at: string;
+  food_detail: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  image_url: string | null;
   societies?: {
     id: string;
     name: string;
@@ -40,3 +44,9 @@ export interface GroupedEvents {
 }
 
 export type FilterType = 'all' | 'today' | 'tomorrow' | 'this-week' | 'socials' | 'workshops' | 'sports';
+
+export interface FilterState {
+  societyId: string | null;
+  category: EventCategory | null;
+  freeFoodOnly: boolean;
+}
