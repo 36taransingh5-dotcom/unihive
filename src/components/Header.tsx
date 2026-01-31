@@ -10,9 +10,9 @@ export function Header() {
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 
-            src="https://placehold.co/120x32/1e293b/ffffff?text=Hive&font=roboto" 
+            src="https://placehold.co/100x40/transparent/000000?text=Hive" 
             alt="Hive" 
-            className="h-8"
+            className="h-8 w-auto"
           />
         </Link>
         
