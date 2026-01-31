@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import hiveLogo from '@/assets/hive-logo.png';
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -10,7 +11,7 @@ export function Header() {
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 
-            src="https://placehold.co/100x40/transparent/000000?text=Hive" 
+            src={hiveLogo} 
             alt="Hive" 
             className="h-8 w-auto"
           />
