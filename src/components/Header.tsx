@@ -8,8 +8,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="text-xl font-extrabold text-foreground tracking-tight">
-          Hive
+        <Link to="/" className="flex items-center">
+          <img 
+            src="https://placehold.co/120x32/1e293b/ffffff?text=Hive&font=roboto" 
+            alt="Hive" 
+            className="h-8"
+          />
         </Link>
         
         {user ? (

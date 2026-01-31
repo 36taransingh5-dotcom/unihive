@@ -1,0 +1,41 @@
+import { getTagColor } from '@/lib/tagColors';
+import { cn } from '@/lib/utils';
+
+interface SmartTagProps {
+  tag: string;
+  className?: string;
+}
+
+export function SmartTag({ tag, className }: SmartTagProps) {
+  const colors = getTagColor(tag);
+  
+  return (
+    <span
+      className={cn(
+        'rounded-full text-[10px] font-bold tracking-wide px-2 py-0.5 uppercase',
+        colors.bg,
+        colors.text,
+        className
+      )}
+    >
+      {tag}
+    </span>
+  );
+}
+
+interface SmartTagListProps {
+  tags: string[];
+  className?: string;
+}
+
+export function SmartTagList({ tags, className }: SmartTagListProps) {
+  if (!tags || tags.length === 0) return null;
+  
+  return (
+    <div className={cn('flex flex-wrap gap-1', className)}>
+      {tags.map((tag, index) => (
+        <SmartTag key={`${tag}-${index}`} tag={tag} />
+      ))}
+    </div>
+  );
+}

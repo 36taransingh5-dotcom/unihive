@@ -69,8 +69,8 @@ export function TimeStreamFeed({
               {timeGroupLabels[group]}
             </h2>
             <div className="space-y-3">
-              {groupEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+              {groupEvents.map((event, idx) => (
+                <EventCard key={event.id} event={event} index={idx} />
               ))}
             </div>
           </section>
@@ -103,9 +103,9 @@ export function TimeStreamFeed({
                   transition={{ duration: 0.2 }}
                   className="space-y-3 mt-3"
                 >
-                  {groupedEvents['past'].map((event) => (
+                  {groupedEvents['past'].map((event, idx) => (
                     <div key={event.id} className="opacity-60">
-                      <EventCard event={event} />
+                      <EventCard event={event} index={idx} />
                     </div>
                   ))}
                 </motion.div>
