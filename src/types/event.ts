@@ -15,6 +15,7 @@ export interface Event {
   latitude: number | null;
   longitude: number | null;
   image_url: string | null;
+  tags: string[] | null;
   societies?: {
     id: string;
     name: string;

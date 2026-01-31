@@ -28,6 +28,7 @@ export type Database = {
           longitude: number | null
           society_id: string
           starts_at: string
+          tags: string[] | null
           title: string
           updated_at: string
         }
@@ -44,6 +45,7 @@ export type Database = {
           longitude?: number | null
           society_id: string
           starts_at: string
+          tags?: string[] | null
           title: string
           updated_at?: string
         }
@@ -60,6 +62,7 @@ export type Database = {
           longitude?: number | null
           society_id?: string
           starts_at?: string
+          tags?: string[] | null
           title?: string
           updated_at?: string
         }
