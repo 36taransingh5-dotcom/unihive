@@ -12,8 +12,8 @@ export function Header() {
         <Link to="/" className="flex items-center">
           <img 
             src={hiveLogo} 
-            alt="Hive" 
-            className="h-8 w-auto"
+            alt="Hive Logo" 
+            className="h-8 w-auto object-contain"
           />
         </Link>
         
