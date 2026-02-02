@@ -18,7 +18,7 @@ const filters: { value: FilterType; label: string }[] = [
 
 export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
   return (
-    <div className="sticky top-14 z-40 glass border-b border-border/50">
+    <div className="sticky top-14 z-40 bg-white border-b-2 border-black">
       <div className="container max-w-2xl mx-auto px-4 py-3">
         <div className="flex gap-2 overflow-x-auto hide-scrollbar">
           {filters.map((filter) => (
@@ -26,11 +26,16 @@ export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
               key={filter.value}
               onClick={() => onFilterChange(filter.value)}
               className={cn(
-                'px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200',
+                'px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap border-2 border-black transition-all duration-150',
                 activeFilter === filter.value
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'bg-secondary/80 text-secondary-foreground hover:bg-secondary'
+                  ? 'bg-black text-white'
+                  : 'bg-white text-black hover:bg-gray-100'
               )}
+              style={{
+                boxShadow: activeFilter === filter.value 
+                  ? 'none' 
+                  : '2px 2px 0px 0px rgba(0,0,0,1)'
+              }}
             >
               {filter.label}
             </button>

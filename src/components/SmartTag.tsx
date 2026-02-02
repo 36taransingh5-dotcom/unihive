@@ -12,7 +12,7 @@ export function SmartTag({ tag, className }: SmartTagProps) {
   return (
     <span
       className={cn(
-        'rounded-full text-[10px] font-bold tracking-wide px-2 py-0.5 uppercase',
+        'rounded-full px-3 py-1 text-xs font-bold border-2 border-black uppercase tracking-wide',
         colors.bg,
         colors.text,
         className
@@ -32,7 +32,7 @@ export function SmartTagList({ tags, className }: SmartTagListProps) {
   if (!tags || tags.length === 0) return null;
   
   return (
-    <div className={cn('flex flex-wrap gap-1', className)}>
+    <div className={cn('flex flex-wrap gap-2', className)}>
       {tags.map((tag, index) => (
         <SmartTag key={`${tag}-${index}`} tag={tag} />
       ))}

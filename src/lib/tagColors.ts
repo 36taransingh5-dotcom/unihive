@@ -1,4 +1,5 @@
-// Smart Tag Engine - Deterministic color assignment for event tags
+// Smart Tag Engine - Neo-Brutalist Edition
+// Deterministic color assignment with black borders
 
 type TagColorScheme = {
   bg: string;
@@ -7,53 +8,50 @@ type TagColorScheme = {
 
 const tagColorMap: Record<string, TagColorScheme> = {
   // Food tags → Orange
-  pizza: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  food: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  cake: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  donut: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  donuts: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  buffet: { bg: 'bg-orange-100', text: 'text-orange-800' },
-  snacks: { bg: 'bg-orange-100', text: 'text-orange-800' },
+  pizza: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  food: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  cake: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  donut: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  donuts: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  buffet: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  snacks: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  snack: { bg: 'bg-[#FFD580]', text: 'text-black' },
   
   // Party/Alcohol tags → Purple
-  party: { bg: 'bg-purple-100', text: 'text-purple-800' },
-  alcohol: { bg: 'bg-purple-100', text: 'text-purple-800' },
-  wine: { bg: 'bg-purple-100', text: 'text-purple-800' },
-  beer: { bg: 'bg-purple-100', text: 'text-purple-800' },
-  pub: { bg: 'bg-purple-100', text: 'text-purple-800' },
-  '18+': { bg: 'bg-purple-100', text: 'text-purple-800' },
-  nightlife: { bg: 'bg-purple-100', text: 'text-purple-800' },
+  party: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  alcohol: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  wine: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  beer: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  drink: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  drinks: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  pub: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  '18+': { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  nightlife: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
   
   // Chill/Study tags → Blue
-  sober: { bg: 'bg-blue-100', text: 'text-blue-800' },
-  coffee: { bg: 'bg-blue-100', text: 'text-blue-800' },
-  tea: { bg: 'bg-blue-100', text: 'text-blue-800' },
-  study: { bg: 'bg-blue-100', text: 'text-blue-800' },
-  chill: { bg: 'bg-blue-100', text: 'text-blue-800' },
-  quiet: { bg: 'bg-blue-100', text: 'text-blue-800' },
+  sober: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  coffee: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  tea: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  study: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  chill: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  quiet: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
   
   // Free tags → Green
-  free: { bg: 'bg-green-100', text: 'text-green-800' },
-  
-  // Paid/Ticket tags → Grey
-  ticket: { bg: 'bg-slate-100', text: 'text-slate-800' },
-  '£': { bg: 'bg-slate-100', text: 'text-slate-800' },
-  paid: { bg: 'bg-slate-100', text: 'text-slate-800' },
-  ticketed: { bg: 'bg-slate-100', text: 'text-slate-800' },
+  free: { bg: 'bg-[#BBF7D0]', text: 'text-black' },
 };
 
-// Pastel color palette for deterministic hash-based fallback
+// Pastel color palette for deterministic hash-based fallback (Brutalist Edition)
 const pastelColors: TagColorScheme[] = [
-  { bg: 'bg-rose-100', text: 'text-rose-800' },
-  { bg: 'bg-pink-100', text: 'text-pink-800' },
-  { bg: 'bg-fuchsia-100', text: 'text-fuchsia-800' },
-  { bg: 'bg-violet-100', text: 'text-violet-800' },
-  { bg: 'bg-indigo-100', text: 'text-indigo-800' },
-  { bg: 'bg-cyan-100', text: 'text-cyan-800' },
-  { bg: 'bg-teal-100', text: 'text-teal-800' },
-  { bg: 'bg-emerald-100', text: 'text-emerald-800' },
-  { bg: 'bg-lime-100', text: 'text-lime-800' },
-  { bg: 'bg-amber-100', text: 'text-amber-800' },
+  { bg: 'bg-[#FCA5A5]', text: 'text-black' }, // Rose
+  { bg: 'bg-[#F9A8D4]', text: 'text-black' }, // Pink
+  { bg: 'bg-[#E9D5FF]', text: 'text-black' }, // Fuchsia
+  { bg: 'bg-[#C4B5FD]', text: 'text-black' }, // Violet
+  { bg: 'bg-[#A5B4FC]', text: 'text-black' }, // Indigo
+  { bg: 'bg-[#A5F3FC]', text: 'text-black' }, // Cyan
+  { bg: 'bg-[#99F6E4]', text: 'text-black' }, // Teal
+  { bg: 'bg-[#86EFAC]', text: 'text-black' }, // Emerald
+  { bg: 'bg-[#BEF264]', text: 'text-black' }, // Lime
+  { bg: 'bg-[#FDE047]', text: 'text-black' }, // Amber
 ];
 
 // Simple deterministic hash function

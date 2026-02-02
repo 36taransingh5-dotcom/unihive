@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Share2, Navigation } from 'lucide-react';
+import { MapPin, Calendar, Share2, Navigation, Bookmark } from 'lucide-react';
 import { format, isWithinInterval } from 'date-fns';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { SmartTagList } from '@/components/SmartTag';
 import { MiniMap } from '@/components/MiniMap';
 import { downloadIcsFile } from '@/lib/calendar';
@@ -18,9 +17,9 @@ interface EventCardProps {
 
 export function EventCard({ event, index = 0 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const { toast } = useToast();
   const societyName = event.societies?.name || 'Unknown Society';
-  const societyLogo = event.societies?.logo_url;
 
   // Check if event is happening now
   const now = new Date();
@@ -28,16 +27,6 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
     start: new Date(event.starts_at),
     end: new Date(event.ends_at),
   });
-
-  // Get society initials for avatar fallback
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
 
   const handleAddToCalendar = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -74,6 +63,15 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
     }
   };
 
+  const handleBookmark = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsBookmarked(!isBookmarked);
+    toast({
+      title: isBookmarked ? 'Bookmark removed' : 'Event bookmarked!',
+      description: isBookmarked ? 'Removed from your saved events' : 'Added to your saved events',
+    });
+  };
+
   // Format time in 12-hour format
   const startTime = format(new Date(event.starts_at), 'h:mm a');
 
@@ -82,54 +80,60 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      transition={{ duration: 0.15, delay: index * 0.05 }}
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-white rounded-2xl p-4 cursor-pointer border border-slate-100 shadow-sm hover:shadow-md transition-all duration-200"
+      className="bg-white border-2 border-black rounded-xl p-4 cursor-pointer mb-4 brutal-card-hover brutal-shadow"
     >
-      {/* Top Row: Title + LIVE Indicator */}
+      {/* Top Row: Title + LIVE Indicator + Bookmark */}
       <div className="flex items-start justify-between gap-2">
-        <h3 className="font-extrabold text-lg text-foreground leading-tight flex-1 min-w-0 truncate">
-          {event.title}
-        </h3>
-        {isLive && (
-          <div className="flex items-center gap-1.5 flex-shrink-0">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-            </span>
-            <span className="text-[10px] font-bold text-red-600 uppercase tracking-wide">Live</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-black text-xl text-black leading-tight truncate">
+              {event.title}
+            </h3>
+            {isLive && (
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+                </span>
+                <span className="text-xs font-black text-red-600 uppercase">LIVE</span>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+        
+        {/* Bookmark Button */}
+        <button
+          onClick={handleBookmark}
+          className={`flex-shrink-0 w-10 h-10 border-2 border-black rounded-lg flex items-center justify-center transition-all duration-150 ${
+            isBookmarked 
+              ? 'bg-black text-white' 
+              : 'bg-white text-black hover:bg-gray-100'
+          }`}
+          style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
+        >
+          <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Smart Tags Row */}
       {event.tags && event.tags.length > 0 && (
-        <SmartTagList tags={event.tags} className="mt-2" />
+        <SmartTagList tags={event.tags} className="mt-3" />
       )}
 
-      {/* Description - truncated to 2 lines */}
-      {event.description && (
-        <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-          {event.description}
-        </p>
-      )}
-
-      {/* Footer Row: Avatar + Society Name | Time */}
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-        <div className="flex items-center gap-2 min-w-0">
-          <Avatar className="w-8 h-8 flex-shrink-0">
-            <AvatarImage src={societyLogo || undefined} alt={societyName} />
-            <AvatarFallback className="text-xs bg-slate-100 text-slate-600">
-              {getInitials(societyName)}
-            </AvatarFallback>
-          </Avatar>
-          <span className="font-medium text-sm text-slate-600 truncate">
-            {societyName}
-          </span>
-        </div>
-        <span className="text-sm text-slate-500 flex-shrink-0">
-          {startTime}
+      {/* Bottom Row: Society Name | Time | Location */}
+      <div className="flex items-center justify-between mt-4 pt-3 border-t-2 border-black">
+        <span className="font-bold text-sm text-black">
+          {societyName}
         </span>
+        <div className="flex items-center gap-3 text-sm">
+          <span className="font-bold text-black">{startTime}</span>
+          <div className="flex items-center gap-1 text-gray-700">
+            <MapPin className="w-4 h-4" strokeWidth={2.5} />
+            <span className="truncate max-w-[120px]">{event.location}</span>
+          </div>
+        </div>
       </div>
 
       {/* Expanded Content */}
@@ -139,29 +143,29 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: 0.15, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="pt-4 mt-4 border-t border-border">
+            <div className="pt-4 mt-4 border-t-2 border-black">
               {/* Hero Image */}
               {event.image_url && (
                 <div className="mb-4 -mx-4 -mt-4">
                   <img
                     src={event.image_url}
                     alt={event.title}
-                    className="w-full h-40 object-cover rounded-t-lg"
+                    className="w-full h-40 object-cover border-b-2 border-black"
                   />
                 </div>
               )}
 
-              {/* Location */}
-              <div className="flex items-center gap-1 text-sm text-muted-foreground mb-3">
-                <MapPin className="w-4 h-4 flex-shrink-0" />
-                <span>{event.location}</span>
-              </div>
+              {event.description && (
+                <p className="text-sm text-gray-700 mb-4 font-medium">
+                  {event.description}
+                </p>
+              )}
               
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                <Calendar className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-sm text-black font-bold mb-4">
+                <Calendar className="w-4 h-4" strokeWidth={2.5} />
                 <span>
                   {format(new Date(event.starts_at), 'EEEE, MMMM d')} • {startTime} - {format(new Date(event.ends_at), 'h:mm a')}
                 </span>
@@ -169,7 +173,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
 
               {/* Mini Map */}
               {event.latitude && event.longitude && (
-                <div className="mb-4">
+                <div className="mb-4 border-2 border-black rounded-lg overflow-hidden brutal-shadow-sm">
                   <MiniMap
                     latitude={event.latitude}
                     longitude={event.longitude}
@@ -179,16 +183,30 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
               )}
 
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" onClick={handleAddToCalendar} className="rounded-xl">
-                  <Calendar className="w-4 h-4 mr-2" />
+                <Button 
+                  size="sm" 
+                  onClick={handleAddToCalendar} 
+                  className="bg-black text-white border-2 border-black font-bold hover:bg-gray-900 rounded-lg brutal-shadow-sm"
+                >
+                  <Calendar className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Add to Calendar
                 </Button>
-                <Button size="sm" variant="outline" onClick={handleGetDirections} className="rounded-xl">
-                  <Navigation className="w-4 h-4 mr-2" />
-                  Get Directions
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={handleGetDirections} 
+                  className="bg-white text-black border-2 border-black font-bold hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+                >
+                  <Navigation className="w-4 h-4 mr-2" strokeWidth={2.5} />
+                  Directions
                 </Button>
-                <Button size="sm" variant="outline" onClick={handleShare} className="rounded-xl">
-                  <Share2 className="w-4 h-4 mr-2" />
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={handleShare} 
+                  className="bg-white text-black border-2 border-black font-bold hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+                >
+                  <Share2 className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Share
                 </Button>
               </div>
