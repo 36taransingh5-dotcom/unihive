@@ -7,7 +7,7 @@ export function Header() {
   const { user, signOut } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-border/50">
+    <header className="sticky top-0 z-50 bg-white border-b-2 border-black">
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 
@@ -19,15 +19,30 @@ export function Header() {
         
         {user ? (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild className="rounded-xl">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              asChild 
+              className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+            >
               <Link to="/dashboard">Dashboard</Link>
             </Button>
-            <Button variant="outline" size="sm" onClick={signOut} className="rounded-xl">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={signOut} 
+              className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+            >
               Sign Out
             </Button>
           </div>
         ) : (
-          <Button variant="outline" size="sm" asChild className="rounded-xl">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            asChild 
+            className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+          >
             <Link to="/login">Society Login</Link>
           </Button>
         )}

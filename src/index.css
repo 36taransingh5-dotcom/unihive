@@ -1,143 +1,114 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Hive Design System - Glass & Pastel */
+/* Hive Design System - Neo-Brutalist */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 94%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 222 47% 11%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 222 47% 11%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Society name accent color */
-    --society-accent: 215 25% 40%;
+    /* Neo-Brutalist Tag Colors */
+    --tag-food: 39 100% 75%;
+    --tag-party: 270 91% 82%;
+    --tag-chill: 199 89% 86%;
+    --tag-free: 142 76% 78%;
 
-    /* Category Colors - Pastel */
-    --category-workshop-bg: 213 97% 93%;
-    --category-workshop-fg: 221 83% 53%;
+    /* Category Colors - Bold */
+    --category-workshop-bg: 213 97% 87%;
+    --category-workshop-fg: 0 0% 0%;
     
-    --category-social-bg: 327 73% 93%;
-    --category-social-fg: 330 81% 60%;
+    --category-social-bg: 327 73% 87%;
+    --category-social-fg: 0 0% 0%;
     
-    --category-sports-bg: 152 76% 91%;
-    --category-sports-fg: 158 64% 40%;
+    --category-sports-bg: 152 76% 85%;
+    --category-sports-fg: 0 0% 0%;
     
-    --category-meeting-bg: 220 14% 93%;
-    --category-meeting-fg: 220 9% 46%;
+    --category-meeting-bg: 220 14% 85%;
+    --category-meeting-fg: 0 0% 0%;
 
     /* Food badge colors */
-    --food-badge-bg: 39 100% 93%;
-    --food-badge-fg: 32 95% 44%;
-
-    /* Gradient accent colors for Ask Hive */
-    --gradient-start: 221 83% 53%;
-    --gradient-end: 271 81% 56%;
-
-    /* Glassmorphism */
-    --glass-bg: 0 0% 100% / 0.8;
-    --glass-border: 0 0% 100% / 0.3;
+    --food-badge-bg: 39 100% 75%;
+    --food-badge-fg: 0 0% 0%;
 
     /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5% 26%;
-    --sidebar-primary: 240 6% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 0 0% 0%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 94%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 0%;
+    --sidebar-ring: 0 0% 0%;
   }
 
   .dark {
-    --background: 222 47% 5%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 10%;
+    --foreground: 0 0% 100%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 217 33% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 217 33% 18%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 213 27% 84%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
 
-    --society-accent: 215 20% 65%;
-
-    /* Category Colors - Pastel (Dark Mode) */
-    --category-workshop-bg: 221 44% 25%;
-    --category-workshop-fg: 213 97% 87%;
-    
-    --category-social-bg: 330 45% 25%;
-    --category-social-fg: 327 73% 87%;
-    
-    --category-sports-bg: 158 44% 20%;
-    --category-sports-fg: 152 76% 87%;
-    
-    --category-meeting-bg: 220 13% 26%;
-    --category-meeting-fg: 220 14% 80%;
-
-    --food-badge-bg: 32 60% 25%;
-    --food-badge-fg: 39 100% 80%;
-
-    --gradient-start: 221 70% 60%;
-    --gradient-end: 271 70% 65%;
-
-    --glass-bg: 222 47% 8% / 0.8;
-    --glass-border: 222 47% 15% / 0.5;
-
-    --sidebar-background: 240 6% 10%;
-    --sidebar-foreground: 240 5% 96%;
-    --sidebar-primary: 224 76% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 16%;
-    --sidebar-accent-foreground: 240 5% 96%;
-    --sidebar-border: 240 4% 16%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 0 0% 12%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 100%;
+    --sidebar-ring: 0 0% 100%;
   }
 }
 
@@ -152,74 +123,85 @@
   }
 }
 
-/* Pastel mesh gradient background */
-.mesh-gradient-bg {
-  background: 
-    radial-gradient(ellipse at 0% 0%, hsl(213 97% 93% / 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 0%, hsl(327 73% 93% / 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, hsl(152 76% 91% / 0.3) 0%, transparent 50%),
-    hsl(var(--background));
-  background-attachment: fixed;
-}
-
-.dark .mesh-gradient-bg {
-  background: 
-    radial-gradient(ellipse at 0% 0%, hsl(221 44% 25% / 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 0%, hsl(330 45% 25% / 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, hsl(158 44% 20% / 0.2) 0%, transparent 50%),
-    hsl(var(--background));
-  background-attachment: fixed;
-}
-
-/* Glassmorphism effect */
-.glass {
-  background: hsl(var(--glass-bg));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: hsl(var(--glass-border));
-}
-
-/* Glowing gradient border for Ask Hive */
-.glow-border {
-  position: relative;
-  background: hsl(var(--card));
-  border-radius: 1rem;
-}
-
-.glow-border::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
-  border-radius: calc(1rem + 2px);
-  z-index: -1;
-  opacity: 0.6;
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: 0.4;
+/* Neo-Brutalist utility classes */
+@layer components {
+  .brutal-border {
+    @apply border-2 border-black;
   }
-  50% {
-    opacity: 0.8;
-  }
-}
 
-/* Sparkle pulse animation */
-@keyframes sparkle-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
+  .brutal-shadow {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
   }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.7;
+
+  .brutal-shadow-sm {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .brutal-card {
+    @apply bg-white border-2 border-black rounded-xl;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .brutal-card-hover {
+    @apply transition-all duration-150;
+  }
+
+  .brutal-card-hover:hover {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  .brutal-button {
+    @apply bg-white border-2 border-black rounded-lg px-4 py-2 font-bold;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .brutal-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .brutal-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  .brutal-input {
+    @apply bg-white border-2 border-black rounded-lg;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .brutal-tag {
+    @apply rounded-full px-3 py-1 text-xs font-bold border-2 border-black text-black;
   }
 }
 
-.sparkle-pulse {
-  animation: sparkle-pulse 2s ease-in-out infinite;
+/* Dark mode brutalist shadows */
+.dark .brutal-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+}
+
+.dark .brutal-shadow-sm {
+  box-shadow: 2px 2px 0px 0px rgba(255, 255, 255, 1);
+}
+
+.dark .brutal-card {
+  @apply bg-card border-white;
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+}
+
+.dark .brutal-button {
+  @apply bg-card border-white text-white;
+  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 1);
+}
+
+.dark .brutal-input {
+  @apply bg-card border-white;
+  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 1);
+}
+
+.dark .brutal-tag {
+  @apply border-white text-white;
 }
 
 /* Hide scrollbar for filter bar */
