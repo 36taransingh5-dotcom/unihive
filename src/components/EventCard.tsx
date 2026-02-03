@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Share2, Navigation, Bookmark } from 'lucide-react';
 import { format, isWithinInterval } from 'date-fns';
@@ -15,11 +15,27 @@ interface EventCardProps {
   index?: number;
 }
 
+// Pop Art shadow colors that cycle
+const shadowColors = [
+  '4px 4px 0px 0px #06b6d4', // Cyan
+  '4px 4px 0px 0px #ec4899', // Pink
+  '4px 4px 0px 0px #eab308', // Yellow
+];
+
 export function EventCard({ event, index = 0 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { toast } = useToast();
   const societyName = event.societies?.name || 'Unknown Society';
+
+  // Deterministic random rotation between -1deg and 1deg based on event id
+  const rotation = useMemo(() => {
+    const hash = event.id.charCodeAt(0) + event.id.charCodeAt(1);
+    return ((hash % 20) - 10) / 10; // Range: -1 to 1
+  }, [event.id]);
+
+  // Cycle shadow color based on index
+  const shadowColor = shadowColors[index % shadowColors.length];
 
   // Check if event is happening now
   const now = new Date();
@@ -80,9 +96,16 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.15, delay: index * 0.05 }}
+      transition={{ duration: 0.12, delay: index * 0.04 }}
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-white border-2 border-black rounded-xl p-4 cursor-pointer mb-4 brutal-card-hover brutal-shadow"
+      className="bg-white border-2 border-black rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px]"
+      style={{ 
+        boxShadow: isExpanded ? 'none' : shadowColor,
+        transform: isExpanded ? 'translate(2px, 2px)' : `rotate(${rotation}deg)`,
+      }}
+      whileHover={{ 
+        boxShadow: 'none',
+      }}
     >
       {/* Top Row: Title + LIVE Indicator + Bookmark */}
       <div className="flex items-start justify-between gap-2">
@@ -143,7 +166,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.15, ease: 'easeInOut' }}
+            transition={{ duration: 0.12, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
             <div className="pt-4 mt-4 border-t-2 border-black">
@@ -186,7 +209,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                 <Button 
                   size="sm" 
                   onClick={handleAddToCalendar} 
-                  className="bg-black text-white border-2 border-black font-bold hover:bg-gray-900 rounded-lg brutal-shadow-sm"
+                  className="bg-[#FFDE59] text-black border-2 border-black font-bold hover:bg-[#FFE57A] rounded-lg brutal-shadow-sm"
                 >
                   <Calendar className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Add to Calendar
