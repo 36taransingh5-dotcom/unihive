@@ -107,11 +107,12 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         boxShadow: 'none',
       }}
     >
-      {/* Top Row: Title + LIVE Indicator + Bookmark */}
+      {/* Top Row: Title + Pills + LIVE + Bookmark */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="font-black text-xl text-black leading-tight truncate">
+          {/* Horizontal Title + Pills Row */}
+          <div className="flex flex-row flex-wrap items-center gap-2">
+            <h3 className="font-black text-xl text-black leading-tight">
               {event.title}
             </h3>
             {isLive && (
@@ -122,6 +123,10 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                 </span>
                 <span className="text-xs font-black text-red-600 uppercase">LIVE</span>
               </div>
+            )}
+            {/* Smart Pills inline with title */}
+            {event.tags && event.tags.length > 0 && (
+              <SmartTagList tags={event.tags} />
             )}
           </div>
         </div>
@@ -140,13 +145,8 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         </button>
       </div>
 
-      {/* Smart Tags Row */}
-      {event.tags && event.tags.length > 0 && (
-        <SmartTagList tags={event.tags} className="mt-3" />
-      )}
-
       {/* Bottom Row: Society Name | Time | Location */}
-      <div className="flex items-center justify-between mt-4 pt-3 border-t-2 border-black">
+      <div className="flex items-center justify-between mt-3 pt-2 border-t-2 border-black">
         <span className="font-bold text-sm text-black">
           {societyName}
         </span>

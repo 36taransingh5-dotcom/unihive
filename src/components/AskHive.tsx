@@ -92,27 +92,31 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
 
   return (
     <div className="space-y-3">
-      {/* Search Input with Glowing Border */}
-      <div className="glow-border p-[1px]">
-        <div className="relative bg-card rounded-[calc(1rem-1px)]">
+      {/* Ask Hive Super Bar - Pop Brutalist Style */}
+      <div 
+        className="bg-[#bde0fe] border-2 border-black rounded-xl transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-none"
+        style={{ boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
+      >
+        <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
-            <Sparkles className="w-5 h-5 text-gradient-start sparkle-pulse" />
+            <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
           </div>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={`Ask Hive... "${placeholderExamples[placeholderIndex]}"`}
-            className="pl-12 pr-14 h-14 bg-transparent border-0 rounded-[calc(1rem-1px)] text-base placeholder:text-muted-foreground/60 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="pl-12 pr-14 h-14 bg-transparent border-0 rounded-xl font-bold text-black placeholder:text-slate-600 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <Button
             size="icon"
             variant="ghost"
             onClick={handleAsk}
             disabled={!query.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-gradient-to-r hover:from-gradient-start/10 hover:to-gradient-end/10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg border-2 border-black bg-white hover:bg-gray-100 transition-all"
+            style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
           >
-            <Send className={`w-5 h-5 ${isLoading ? 'animate-pulse text-gradient-start' : 'text-muted-foreground'}`} />
+            <Send className={`w-5 h-5 ${isLoading ? 'animate-pulse text-purple-600' : 'text-black'}`} strokeWidth={2.5} />
           </Button>
         </div>
       </div>
