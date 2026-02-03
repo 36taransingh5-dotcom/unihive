@@ -28,7 +28,7 @@ export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
               className={cn(
                 'px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap border-2 border-black transition-all duration-150',
                 activeFilter === filter.value
-                  ? 'bg-black text-white'
+                  ? 'bg-[#FFDE59] text-black translate-x-[1px] translate-y-[1px]'
                   : 'bg-white text-black hover:bg-gray-100'
               )}
               style={{

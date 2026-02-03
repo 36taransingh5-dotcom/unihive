@@ -1,5 +1,5 @@
-// Smart Tag Engine - Neo-Brutalist Edition
-// Deterministic color assignment with black borders
+// Smart Tag Engine - Pop Art Edition
+// Saturated, high-contrast colors with black borders
 
 type TagColorScheme = {
   bg: string;
@@ -7,51 +7,52 @@ type TagColorScheme = {
 };
 
 const tagColorMap: Record<string, TagColorScheme> = {
-  // Food tags → Orange
-  pizza: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  food: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  cake: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  donut: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  donuts: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  buffet: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  snacks: { bg: 'bg-[#FFD580]', text: 'text-black' },
-  snack: { bg: 'bg-[#FFD580]', text: 'text-black' },
+  // Food tags → Bright Orange
+  pizza: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  food: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  cake: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  donut: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  donuts: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  buffet: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  snacks: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
+  snack: { bg: 'bg-[#FF9F1C]', text: 'text-white' },
   
-  // Party/Alcohol tags → Purple
-  party: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  alcohol: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  wine: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  beer: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  drink: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  drinks: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  pub: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  '18+': { bg: 'bg-[#D8B4FE]', text: 'text-black' },
-  nightlife: { bg: 'bg-[#D8B4FE]', text: 'text-black' },
+  // Party/Alcohol tags → Hot Pink
+  party: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  alcohol: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  wine: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  beer: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  drink: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  drinks: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  pub: { bg: 'bg-[#FF4081]', text: 'text-white' },
+  '18+': { bg: 'bg-[#FF4081]', text: 'text-white' },
+  nightlife: { bg: 'bg-[#FF4081]', text: 'text-white' },
   
-  // Chill/Study tags → Blue
-  sober: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
-  coffee: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
-  tea: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
-  study: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
-  chill: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
-  quiet: { bg: 'bg-[#BAE6FD]', text: 'text-black' },
+  // Chill/Study tags → Electric Blue
+  sober: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
+  coffee: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
+  tea: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
+  study: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
+  chill: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
+  quiet: { bg: 'bg-[#2EC4B6]', text: 'text-white' },
   
-  // Free tags → Green
-  free: { bg: 'bg-[#BBF7D0]', text: 'text-black' },
+  // Free tags → Lime Green
+  free: { bg: 'bg-[#CBF3F0]', text: 'text-black' },
+  'free food': { bg: 'bg-[#CBF3F0]', text: 'text-black' },
 };
 
-// Pastel color palette for deterministic hash-based fallback (Brutalist Edition)
+// Saturated pastel palette for deterministic hash-based fallback
 const pastelColors: TagColorScheme[] = [
-  { bg: 'bg-[#FCA5A5]', text: 'text-black' }, // Rose
-  { bg: 'bg-[#F9A8D4]', text: 'text-black' }, // Pink
-  { bg: 'bg-[#E9D5FF]', text: 'text-black' }, // Fuchsia
-  { bg: 'bg-[#C4B5FD]', text: 'text-black' }, // Violet
-  { bg: 'bg-[#A5B4FC]', text: 'text-black' }, // Indigo
-  { bg: 'bg-[#A5F3FC]', text: 'text-black' }, // Cyan
-  { bg: 'bg-[#99F6E4]', text: 'text-black' }, // Teal
-  { bg: 'bg-[#86EFAC]', text: 'text-black' }, // Emerald
-  { bg: 'bg-[#BEF264]', text: 'text-black' }, // Lime
-  { bg: 'bg-[#FDE047]', text: 'text-black' }, // Amber
+  { bg: 'bg-[#FF6B6B]', text: 'text-white' }, // Coral Red
+  { bg: 'bg-[#C44569]', text: 'text-white' }, // Berry
+  { bg: 'bg-[#9B59B6]', text: 'text-white' }, // Purple
+  { bg: 'bg-[#3498DB]', text: 'text-white' }, // Blue
+  { bg: 'bg-[#1ABC9C]', text: 'text-white' }, // Teal
+  { bg: 'bg-[#2ECC71]', text: 'text-white' }, // Green
+  { bg: 'bg-[#F39C12]', text: 'text-white' }, // Orange
+  { bg: 'bg-[#E74C3C]', text: 'text-white' }, // Red
+  { bg: 'bg-[#5DADE2]', text: 'text-white' }, // Sky Blue
+  { bg: 'bg-[#48C9B0]', text: 'text-white' }, // Mint
 ];
 
 // Simple deterministic hash function

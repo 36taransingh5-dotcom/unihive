@@ -23,7 +23,8 @@ export function Header() {
               variant="ghost" 
               size="sm" 
               asChild 
-              className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+              className="font-bold border-2 border-black bg-[#FFDE59] text-black hover:bg-[#FFE57A] rounded-lg"
+              style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
             >
               <Link to="/dashboard">Dashboard</Link>
             </Button>
@@ -31,7 +32,8 @@ export function Header() {
               variant="outline" 
               size="sm" 
               onClick={signOut} 
-              className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+              className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg"
+              style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
             >
               Sign Out
             </Button>
@@ -41,7 +43,8 @@ export function Header() {
             variant="outline" 
             size="sm" 
             asChild 
-            className="font-bold border-2 border-black bg-white text-black hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+            className="font-bold border-2 border-black bg-[#FFDE59] text-black hover:bg-[#FFE57A] rounded-lg"
+            style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
           >
             <Link to="/login">Society Login</Link>
           </Button>
