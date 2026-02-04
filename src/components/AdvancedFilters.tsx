@@ -1,4 +1,4 @@
-import { Filter, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -7,8 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import type { EventCategory, FilterState, Society } from '@/types/event';
 
 interface AdvancedFiltersProps {
@@ -84,20 +82,17 @@ export function AdvancedFilters({
         </SelectContent>
       </Select>
 
-      {/* Free Food Toggle */}
-      <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card border border-border whitespace-nowrap">
-        <Switch
-          id="free-food"
-          checked={filters.freeFoodOnly}
-          onCheckedChange={(checked) =>
-            onFiltersChange({ ...filters, freeFoodOnly: checked })
-          }
-          className="data-[state=checked]:bg-food-fg"
-        />
-        <Label htmlFor="free-food" className="text-sm cursor-pointer">
-          🍕 Free Food
-        </Label>
-      </div>
+      {/* Free Food Button */}
+      <button
+        onClick={() => onFiltersChange({ ...filters, freeFoodOnly: !filters.freeFoodOnly })}
+        className={`h-9 px-4 rounded-xl border-2 border-black font-bold text-sm whitespace-nowrap transition-all duration-150 ${
+          filters.freeFoodOnly
+            ? 'bg-[#bef264] translate-x-[2px] translate-y-[2px] shadow-none'
+            : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+        }`}
+      >
+        {filters.freeFoodOnly ? '🍕 Free Food Only' : '🍕 Free Food'}
+      </button>
 
       {/* Clear Filters */}
       {hasActiveFilters && (

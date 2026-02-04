@@ -91,26 +91,26 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
 
   return (
     <div className="space-y-3">
-      {/* AI Command Center - Terminal Aesthetic */}
+      {/* AI Command Center - Neo-Brutalist */}
       <div 
-        className="bg-gray-900 border-2 border-[#d946ef] rounded-full transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-none"
-        style={{ boxShadow: '4px 4px 0px 0px #a855f7' }}
+        className="bg-white border-2 border-black rounded-xl transition-all duration-150"
+        style={{ boxShadow: '4px 4px 0px 0px #d946ef' }}
       >
         <div className="relative flex items-center">
-          <div className="absolute left-5 top-1/2 -translate-y-1/2">
-            <Sparkles className="w-5 h-5 text-yellow-400 animate-pulse" />
+          <div className="absolute left-4 top-1/2 -translate-y-1/2">
+            <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
           </div>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={`Ask Hive... "${placeholderExamples[placeholderIndex]}"`}
-            className="pl-14 pr-16 h-14 bg-transparent border-0 rounded-full font-bold text-white placeholder:text-purple-300 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="pl-12 pr-16 h-14 bg-transparent border-0 rounded-xl font-medium text-black placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <button
             onClick={handleAsk}
             disabled={!query.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white flex items-center justify-center transition-all duration-150 hover:rotate-[-15deg] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-3 rounded-lg bg-[#FFDE59] border-2 border-black flex items-center justify-center transition-all duration-150 hover:translate-x-[1px] hover:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className={`w-5 h-5 text-black ${isLoading ? 'animate-pulse' : ''}`} strokeWidth={2.5} />
           </button>
