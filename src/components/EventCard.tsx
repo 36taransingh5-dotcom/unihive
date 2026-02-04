@@ -4,9 +4,11 @@ import { MapPin, Calendar, Share2, Navigation, Bookmark } from 'lucide-react';
 import { format, isWithinInterval } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { SmartTagList } from '@/components/SmartTag';
+import { CategoryPill } from '@/components/CategoryPill';
 import { MiniMap } from '@/components/MiniMap';
 import { downloadIcsFile } from '@/lib/calendar';
 import { shareEvent } from '@/lib/share';
+import { getCategoryShadow } from '@/lib/categoryStyles';
 import { useToast } from '@/hooks/use-toast';
 import type { Event } from '@/types/event';
 
@@ -15,27 +17,14 @@ interface EventCardProps {
   index?: number;
 }
 
-// Pop Art shadow colors that cycle
-const shadowColors = [
-  '4px 4px 0px 0px #06b6d4', // Cyan
-  '4px 4px 0px 0px #ec4899', // Pink
-  '4px 4px 0px 0px #eab308', // Yellow
-];
-
 export function EventCard({ event, index = 0 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { toast } = useToast();
   const societyName = event.societies?.name || 'Unknown Society';
 
-  // Deterministic random rotation between -1deg and 1deg based on event id
-  const rotation = useMemo(() => {
-    const hash = event.id.charCodeAt(0) + event.id.charCodeAt(1);
-    return ((hash % 20) - 10) / 10; // Range: -1 to 1
-  }, [event.id]);
-
-  // Cycle shadow color based on index
-  const shadowColor = shadowColors[index % shadowColors.length];
+  // Get category-based shadow color
+  const shadowStyle = useMemo(() => getCategoryShadow(event.category), [event.category]);
 
   // Check if event is happening now
   const now = new Date();
@@ -100,19 +89,19 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       onClick={() => setIsExpanded(!isExpanded)}
       className="bg-white border-2 border-black rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px]"
       style={{ 
-        boxShadow: isExpanded ? 'none' : shadowColor,
-        transform: isExpanded ? 'translate(2px, 2px)' : `rotate(${rotation}deg)`,
+        boxShadow: isExpanded ? 'none' : shadowStyle,
+        transform: isExpanded ? 'translate(2px, 2px)' : undefined,
       }}
       whileHover={{ 
         boxShadow: 'none',
       }}
     >
-      {/* Top Row: Title + Pills + LIVE + Bookmark */}
+      {/* Top Row: Title + Category Pill + Tags + LIVE + Bookmark */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           {/* Horizontal Title + Pills Row */}
           <div className="flex flex-row flex-wrap items-center gap-2">
-            <h3 className="font-black text-xl text-black leading-tight">
+            <h3 className={`font-black text-xl text-black leading-tight ${!isExpanded ? 'truncate max-w-[200px]' : ''}`}>
               {event.title}
             </h3>
             {isLive && (
@@ -124,7 +113,9 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                 <span className="text-xs font-black text-red-600 uppercase">LIVE</span>
               </div>
             )}
-            {/* Smart Pills inline with title */}
+            {/* Category Pill - First, with colored border */}
+            <CategoryPill category={event.category} />
+            {/* Smart Tags inline */}
             {event.tags && event.tags.length > 0 && (
               <SmartTagList tags={event.tags} />
             )}
@@ -145,17 +136,24 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         </button>
       </div>
 
-      {/* Bottom Row: Society Name | Time | Location */}
-      <div className="flex items-center justify-between mt-3 pt-2 border-t-2 border-black">
-        <span className="font-bold text-sm text-black">
+      {/* Description Preview (conditional truncation) */}
+      {event.description && !isExpanded && (
+        <p className="text-sm text-gray-600 mt-2 truncate whitespace-nowrap">
+          {event.description}
+        </p>
+      )}
+
+      {/* Bottom Row: Society Name | Time | Location - COMPACT */}
+      <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-black">
+        <span className="font-bold text-sm text-black flex-shrink-0">
           {societyName}
         </span>
-        <div className="flex items-center gap-3 text-sm">
-          <span className="font-bold text-black">{startTime}</span>
-          <div className="flex items-center gap-1 text-gray-700">
-            <MapPin className="w-4 h-4" strokeWidth={2.5} />
-            <span className="truncate max-w-[120px]">{event.location}</span>
-          </div>
+        <span className="text-gray-400">•</span>
+        <span className="font-bold text-sm text-black flex-shrink-0">{startTime}</span>
+        <span className="text-gray-400">•</span>
+        <div className={`flex items-center gap-1 text-sm text-gray-700 ${!isExpanded ? 'truncate' : ''}`}>
+          <MapPin className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
+          <span className={!isExpanded ? 'truncate' : 'whitespace-normal break-words'}>{event.location}</span>
         </div>
       </div>
 
@@ -182,7 +180,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
               )}
 
               {event.description && (
-                <p className="text-sm text-gray-700 mb-4 font-medium">
+                <p className="text-sm text-gray-700 mb-4 font-medium whitespace-normal break-words">
                   {event.description}
                 </p>
               )}

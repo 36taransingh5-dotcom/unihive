@@ -25,6 +25,7 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
+    // Include tags in context so AI can search them too
     const eventsContext = events.map((e: any) => ({
       id: e.id,
       title: e.title,
@@ -33,6 +34,8 @@ serve(async (req) => {
       category: e.category,
       starts_at: e.starts_at,
       ends_at: e.ends_at,
+      tags: e.tags || [], // Include tags for deep search
+      food_detail: e.food_detail, // Include food info for free food queries
       society: e.societies?.name || 'Unknown'
     }));
 
@@ -47,11 +50,13 @@ Your personality:
 Your task:
 - Analyze the user's question about events
 - Look through the available events and recommend the most relevant ones
-- If asking about "free food" look for socials or events that might have refreshments
-- If asking about "chill" activities, suggest workshops or social events
+- IMPORTANT: Search through BOTH the title/description AND the tags array for matches
+- Tags contain keywords like "pizza", "free food", "party", "study", etc.
+- If asking about "free food", check both tags and food_detail fields
+- If asking about "chill" activities, look for tags like "study", "coffee", "sober"
 - If no events match, be honest but encouraging
 
-Available events:
+Available events (note: each event has a 'tags' array - search these for keywords!):
 ${JSON.stringify(eventsContext, null, 2)}`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {

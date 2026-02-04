@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Sparkles, Send, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import type { Event } from '@/types/event';
 
@@ -12,7 +11,7 @@ interface AskHiveProps {
 }
 
 const placeholderExamples = [
-  "Where can I find free donuts?",
+  "Where is the free pizza?",
   "Any chill workshops this week?",
   "Find me a gym buddy",
   "What's happening tonight?",
@@ -92,32 +91,29 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
 
   return (
     <div className="space-y-3">
-      {/* Ask Hive Super Bar - Pop Brutalist Style */}
+      {/* AI Command Center - Terminal Aesthetic */}
       <div 
-        className="bg-[#bde0fe] border-2 border-black rounded-xl transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-none"
-        style={{ boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
+        className="bg-gray-900 border-2 border-[#d946ef] rounded-full transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-none"
+        style={{ boxShadow: '4px 4px 0px 0px #a855f7' }}
       >
-        <div className="relative">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2">
-            <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
+        <div className="relative flex items-center">
+          <div className="absolute left-5 top-1/2 -translate-y-1/2">
+            <Sparkles className="w-5 h-5 text-yellow-400 animate-pulse" />
           </div>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={`Ask Hive... "${placeholderExamples[placeholderIndex]}"`}
-            className="pl-12 pr-14 h-14 bg-transparent border-0 rounded-xl font-bold text-black placeholder:text-slate-600 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="pl-14 pr-16 h-14 bg-transparent border-0 rounded-full font-bold text-white placeholder:text-purple-300 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
-          <Button
-            size="icon"
-            variant="ghost"
+          <button
             onClick={handleAsk}
             disabled={!query.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg border-2 border-black bg-white hover:bg-gray-100 transition-all"
-            style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white flex items-center justify-center transition-all duration-150 hover:rotate-[-15deg] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className={`w-5 h-5 ${isLoading ? 'animate-pulse text-purple-600' : 'text-black'}`} strokeWidth={2.5} />
-          </Button>
+            <Send className={`w-5 h-5 text-black ${isLoading ? 'animate-pulse' : ''}`} strokeWidth={2.5} />
+          </button>
         </div>
       </div>
 
@@ -130,32 +126,32 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
             exit={{ opacity: 0, y: -10, height: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <div className="relative bg-gradient-to-br from-gradient-start/5 via-accent/10 to-gradient-end/10 rounded-2xl p-4 border border-gradient-start/20">
+            <div className="relative bg-gray-900 border-2 border-[#d946ef] rounded-2xl p-4">
               {/* Close button */}
               <button
                 onClick={clearSearch}
-                className="absolute top-2 right-2 p-1.5 rounded-full hover:bg-background/50 transition-colors"
+                className="absolute top-2 right-2 p-1.5 rounded-full hover:bg-white/10 transition-colors"
               >
-                <X className="w-4 h-4 text-muted-foreground" />
+                <X className="w-4 h-4 text-purple-300" />
               </button>
 
               {/* Hive Avatar */}
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-gradient-start to-gradient-end flex items-center justify-center shadow-lg">
+                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0 pr-6">
-                  <p className="text-xs font-semibold text-gradient-start mb-1">Hive AI</p>
+                  <p className="text-xs font-semibold text-purple-400 mb-1">Hive AI</p>
                   {isLoading ? (
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-gradient-start/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   ) : error ? (
-                    <p className="text-sm text-destructive">{error}</p>
+                    <p className="text-sm text-red-400">{error}</p>
                   ) : (
-                    <p className="text-sm text-foreground leading-relaxed">{answer}</p>
+                    <p className="text-sm text-white leading-relaxed">{answer}</p>
                   )}
                 </div>
               </div>
@@ -165,16 +161,14 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="mt-3 pt-3 border-t border-gradient-start/10"
+                  className="mt-3 pt-3 border-t border-purple-500/30"
                 >
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
                     onClick={clearSearch}
-                    className="w-full rounded-xl text-xs border-gradient-start/20 hover:bg-gradient-start/5"
+                    className="w-full py-2 px-4 rounded-xl text-xs font-bold border-2 border-purple-500/30 text-purple-300 hover:bg-purple-500/10 transition-colors"
                   >
                     Clear Search • Show All Events
-                  </Button>
+                  </button>
                 </motion.div>
               )}
             </div>
