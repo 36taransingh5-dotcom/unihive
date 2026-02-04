@@ -101,7 +101,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         <div className="flex-1 min-w-0">
           {/* Horizontal Title + Pills Row */}
           <div className="flex flex-row flex-wrap items-center gap-2">
-            <h3 className={`font-black text-xl text-black leading-tight ${!isExpanded ? 'truncate max-w-[200px]' : ''}`}>
+            <h3 className="font-black text-xl text-black leading-tight whitespace-normal break-words">
               {event.title}
             </h3>
             {isLive && (
@@ -143,13 +143,15 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         </p>
       )}
 
-      {/* Bottom Row: Society Name | Time | Location - COMPACT */}
+      {/* Bottom Row: Society Name | Date + Time | Location - COMPACT */}
       <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-black">
         <span className="font-bold text-sm text-black flex-shrink-0">
           {societyName}
         </span>
         <span className="text-gray-400">•</span>
-        <span className="font-bold text-sm text-black flex-shrink-0">{startTime}</span>
+        <span className="font-bold text-sm text-black flex-shrink-0">
+          {format(new Date(event.starts_at), 'EEE, MMM d')} • {startTime}
+        </span>
         <span className="text-gray-400">•</span>
         <div className={`flex items-center gap-1 text-sm text-gray-700 ${!isExpanded ? 'truncate' : ''}`}>
           <MapPin className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
