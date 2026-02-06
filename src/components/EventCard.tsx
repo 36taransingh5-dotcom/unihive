@@ -143,20 +143,25 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         </p>
       )}
 
-      {/* Bottom Row: Society Name | Date + Time | Location - COMPACT */}
+      {/* Bottom Row: Society Name | Date + Time | Location - COMPACT (conditional) */}
       <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-black">
         <span className="font-bold text-sm text-black flex-shrink-0">
           {societyName}
         </span>
-        <span className="text-gray-400">•</span>
-        <span className="font-bold text-sm text-black flex-shrink-0">
-          {format(new Date(event.starts_at), 'EEE, MMM d')} • {startTime}
-        </span>
-        <span className="text-gray-400">•</span>
-        <div className={`flex items-center gap-1 text-sm text-gray-700 ${!isExpanded ? 'truncate' : ''}`}>
-          <MapPin className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
-          <span className={!isExpanded ? 'truncate' : 'whitespace-normal break-words'}>{event.location}</span>
-        </div>
+        {/* Only show date/time/location in collapsed state */}
+        {!isExpanded && (
+          <>
+            <span className="text-gray-400 font-normal">•</span>
+            <span className="font-bold text-sm text-black flex-shrink-0">
+              {format(new Date(event.starts_at), 'EEE, MMM d')} • {startTime}
+            </span>
+            <span className="text-gray-400 font-normal">•</span>
+            <div className="flex items-center gap-1 text-sm text-gray-700 truncate">
+              <MapPin className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
+              <span className="truncate">{event.location}</span>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Expanded Content */}
