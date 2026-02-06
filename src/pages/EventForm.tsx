@@ -14,7 +14,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Header } from '@/components/Header';
 import { MagicFillButton } from '@/components/MagicFillButton';
 import { CategorySelect } from '@/components/CategorySelect';
-import { ImageGenerator } from '@/components/ImageGenerator';
 import { TagInput } from '@/components/TagInput';
 import { useAuth } from '@/hooks/useAuth';
 import { useSociety } from '@/hooks/useSociety';
@@ -42,7 +41,6 @@ export default function EventForm() {
   const [initialLoading, setInitialLoading] = useState(isEditing);
   const [repeatWeekly, setRepeatWeekly] = useState(false);
   const [freeFood, setFreeFood] = useState(false);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const { user, loading: authLoading } = useAuth();
   const { data: society } = useSociety();
@@ -330,16 +328,6 @@ export default function EventForm() {
                 />
               </div>
 
-              {/* AI Image Generator */}
-              <div className="space-y-2">
-                <Label className="font-bold">Event Cover Image</Label>
-                <ImageGenerator
-                  title={watch('title') || ''}
-                  category={watch('category')}
-                  currentImage={generatedImageUrl}
-                  onImageGenerated={setGeneratedImageUrl}
-                />
-              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
