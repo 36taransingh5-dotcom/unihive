@@ -6,9 +6,10 @@ export function useSocieties() {
   return useQuery({
     queryKey: ['societies'],
     queryFn: async (): Promise<Society[]> => {
+      // SECURITY: Only select public fields, never expose user_id
       const { data, error } = await supabase
         .from('societies')
-        .select('*')
+        .select('id, name, description, logo_url')
         .order('name', { ascending: true });
 
       if (error) throw error;
