@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,31 +11,6 @@ serve(async (req) => {
   }
 
   try {
-    // Authentication check
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized - Please sign in to use Hive AI' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
-
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
-    
-    if (claimsError || !claimsData?.claims) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized - Please sign in to use Hive AI' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
     const { question, events } = await req.json();
 
     if (!question || !events) {
@@ -60,8 +34,8 @@ serve(async (req) => {
       category: e.category,
       starts_at: e.starts_at,
       ends_at: e.ends_at,
-      tags: e.tags || [], // Include tags for deep search
-      food_detail: e.food_detail, // Include food info for free food queries
+      tags: e.tags || [],
+      food_detail: e.food_detail,
       society: e.societies?.name || 'Unknown'
     }));
 
@@ -159,7 +133,6 @@ ${JSON.stringify(eventsContext, null, 2)}`;
         relevant_event_ids = args.relevant_event_ids || [];
       } catch (e) {
         console.error('Failed to parse tool call arguments:', e);
-        // Fallback to content if tool call parsing fails
         answer = data.choices?.[0]?.message?.content || answer;
       }
     }
