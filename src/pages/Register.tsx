@@ -16,9 +16,13 @@ const registerSchema = z.object({
   email: z.string().email('Please enter a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
+  hiveCode: z.string().min(1, 'Hive Access Code is required'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ['confirmPassword'],
+}).refine((data) => data.hiveCode.toLowerCase() === 'taran', {
+  message: 'Invalid Hive Code. Please contact an admin for access.',
+  path: ['hiveCode'],
 });
 
 type RegisterForm = z.infer<typeof registerSchema>;
@@ -125,6 +129,19 @@ export default function Register() {
               />
               {errors.confirmPassword && (
                 <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="hiveCode">Hive Access Code</Label>
+              <Input
+                id="hiveCode"
+                type="text"
+                placeholder="Enter your invite code"
+                className="rounded-xl"
+                {...register('hiveCode')}
+              />
+              {errors.hiveCode && (
+                <p className="text-sm text-destructive">{errors.hiveCode.message}</p>
               )}
             </div>
           </CardContent>

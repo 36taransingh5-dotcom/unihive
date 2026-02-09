@@ -78,22 +78,22 @@
   }
 
   .dark {
-    --background: 0 0% 10%;
+    --background: 222 47% 11%;
     --foreground: 0 0% 100%;
 
-    --card: 0 0% 15%;
+    --card: 217 33% 17%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 15%;
+    --popover: 217 33% 17%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 48 100% 67%;
     --primary-foreground: 0 0% 0%;
 
-    --secondary: 0 0% 20%;
+    --secondary: 217 33% 22%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 25%;
+    --muted: 217 33% 25%;
     --muted-foreground: 0 0% 65%;
 
     --accent: 48 100% 67%;
@@ -102,18 +102,18 @@
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 100%;
-    --input: 0 0% 100%;
-    --ring: 0 0% 100%;
+    --border: 82 85% 67%;
+    --input: 82 85% 67%;
+    --ring: 82 85% 67%;
 
-    --sidebar-background: 0 0% 12%;
+    --sidebar-background: 222 47% 11%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent: 217 33% 17%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 100%;
-    --sidebar-ring: 0 0% 100%;
+    --sidebar-border: 82 85% 67%;
+    --sidebar-ring: 82 85% 67%;
   }
 }
 
@@ -123,12 +123,20 @@
   }
 
   body {
-    @apply text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased bg-background;
     font-family: 'Inter', sans-serif;
-    background-color: #FFFDF5;
     background-image: 
       linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dark body,
+  :root.dark body {
+    background-color: hsl(222 47% 11%);
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 }
@@ -216,37 +224,40 @@
   }
 }
 
-/* Dark mode brutalist shadows */
+/* Dark mode brutalist shadows - Neon Cyberpunk */
 .dark .brutal-shadow {
-  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+  box-shadow: 4px 4px 0px 0px #db2777;
 }
 
 .dark .brutal-shadow-sm {
-  box-shadow: 2px 2px 0px 0px rgba(255, 255, 255, 1);
+  box-shadow: 2px 2px 0px 0px #db2777;
 }
 
 .dark .brutal-card {
-  @apply bg-card border-white;
-  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+  @apply bg-card;
+  border-color: hsl(82 85% 67%);
+  box-shadow: 4px 4px 0px 0px #db2777;
 }
 
 .dark .brutal-button {
-  @apply bg-card border-white text-white;
-  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 1);
+  @apply bg-card text-white;
+  border-color: hsl(82 85% 67%);
+  box-shadow: 3px 3px 0px 0px #db2777;
 }
 
 .dark .brutal-button-primary {
-  @apply border-white;
-  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 1);
+  border-color: hsl(82 85% 67%);
+  box-shadow: 3px 3px 0px 0px #db2777;
 }
 
 .dark .brutal-input {
-  @apply bg-card border-white;
-  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 1);
+  @apply bg-card;
+  border-color: hsl(82 85% 67%);
+  box-shadow: 3px 3px 0px 0px #db2777;
 }
 
 .dark .brutal-tag {
-  @apply border-white;
+  border-color: hsl(82 85% 67%);
 }
 
 /* Hide scrollbar for filter bar */
