@@ -10,6 +10,7 @@ import { downloadIcsFile } from '@/lib/calendar';
 import { shareEvent } from '@/lib/share';
 import { getCategoryShadow } from '@/lib/categoryStyles';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/hooks/useTheme';
 import type { Event } from '@/types/event';
 
 interface EventCardProps {
@@ -21,10 +22,14 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { toast } = useToast();
+  const { isDarkMode } = useTheme();
   const societyName = event.societies?.name || 'Unknown Society';
 
-  // Get category-based shadow color
-  const shadowStyle = useMemo(() => getCategoryShadow(event.category), [event.category]);
+  // Get category-based shadow color — use magenta glow in dark mode
+  const shadowStyle = useMemo(() => 
+    isDarkMode ? '4px 4px 0px 0px #db2777' : getCategoryShadow(event.category), 
+    [event.category, isDarkMode]
+  );
 
   // Check if event is happening now
   const now = new Date();
@@ -87,7 +92,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.12, delay: index * 0.04 }}
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-white border-2 border-black rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px]"
+      className="bg-card border-2 border-border rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] dark:border-[#bef264]"
       style={{ 
         boxShadow: isExpanded ? 'none' : shadowStyle,
         transform: isExpanded ? 'translate(2px, 2px)' : undefined,
@@ -101,7 +106,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         <div className="flex-1 min-w-0">
           {/* Horizontal Title + Pills Row */}
           <div className="flex flex-row flex-wrap items-center gap-2">
-            <h3 className="font-black text-xl text-black leading-tight whitespace-normal break-words">
+            <h3 className="font-black text-xl text-foreground leading-tight whitespace-normal break-words">
               {event.title}
             </h3>
             {isLive && (
@@ -125,10 +130,10 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         {/* Bookmark Button */}
         <button
           onClick={handleBookmark}
-          className={`flex-shrink-0 w-10 h-10 border-2 border-black rounded-lg flex items-center justify-center transition-all duration-150 ${
+          className={`flex-shrink-0 w-10 h-10 border-2 border-border rounded-lg flex items-center justify-center transition-all duration-150 dark:border-[#bef264] ${
             isBookmarked 
-              ? 'bg-black text-white' 
-              : 'bg-white text-black hover:bg-gray-100'
+              ? 'bg-foreground text-background' 
+              : 'bg-card text-foreground hover:bg-secondary'
           }`}
           style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
         >
@@ -138,25 +143,24 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
 
       {/* Description Preview (conditional truncation) */}
       {event.description && !isExpanded && (
-        <p className="text-sm text-gray-600 mt-2 truncate whitespace-nowrap">
+        <p className="text-sm text-muted-foreground mt-2 truncate whitespace-nowrap">
           {event.description}
         </p>
       )}
 
       {/* Bottom Row: Society Name | Date + Time | Location - COMPACT (conditional) */}
-      <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-black">
-        <span className="font-bold text-sm text-black flex-shrink-0">
+      <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-border dark:border-[#bef264]/30">
+        <span className="font-bold text-sm text-foreground flex-shrink-0">
           {societyName}
         </span>
-        {/* Only show date/time/location in collapsed state */}
         {!isExpanded && (
           <>
-            <span className="text-gray-400 font-normal">•</span>
-            <span className="font-bold text-sm text-black flex-shrink-0">
+            <span className="text-muted-foreground font-normal">•</span>
+            <span className="font-bold text-sm text-foreground flex-shrink-0">
               {format(new Date(event.starts_at), 'EEE, MMM d')} • {startTime}
             </span>
-            <span className="text-gray-400 font-normal">•</span>
-            <div className="flex items-center gap-1 text-sm text-gray-700 truncate">
+            <span className="text-muted-foreground font-normal">•</span>
+            <div className="flex items-center gap-1 text-sm text-muted-foreground truncate">
               <MapPin className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
               <span className="truncate">{event.location}</span>
             </div>
@@ -174,25 +178,25 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
             transition={{ duration: 0.12, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="pt-4 mt-4 border-t-2 border-black">
+            <div className="pt-4 mt-4 border-t-2 border-border dark:border-[#bef264]/30">
               {/* Hero Image */}
               {event.image_url && (
                 <div className="mb-4 -mx-4 -mt-4">
                   <img
                     src={event.image_url}
                     alt={event.title}
-                    className="w-full h-40 object-cover border-b-2 border-black"
+                    className="w-full h-40 object-cover border-b-2 border-border"
                   />
                 </div>
               )}
 
               {event.description && (
-                <p className="text-sm text-gray-700 mb-4 font-medium whitespace-normal break-words">
+                <p className="text-sm text-muted-foreground mb-4 font-medium whitespace-normal break-words">
                   {event.description}
                 </p>
               )}
               
-              <div className="flex items-center gap-2 text-sm text-black font-bold mb-4">
+              <div className="flex items-center gap-2 text-sm text-foreground font-bold mb-4">
                 <Calendar className="w-4 h-4" strokeWidth={2.5} />
                 <span>
                   {format(new Date(event.starts_at), 'EEEE, MMMM d')} • {startTime} - {format(new Date(event.ends_at), 'h:mm a')}
@@ -201,7 +205,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
 
               {/* Mini Map */}
               {event.latitude && event.longitude && (
-                <div className="mb-4 border-2 border-black rounded-lg overflow-hidden brutal-shadow-sm">
+                <div className="mb-4 border-2 border-border rounded-lg overflow-hidden brutal-shadow-sm">
                   <MiniMap
                     latitude={event.latitude}
                     longitude={event.longitude}
@@ -214,7 +218,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                 <Button 
                   size="sm" 
                   onClick={handleAddToCalendar} 
-                  className="bg-[#FFDE59] text-black border-2 border-black font-bold hover:bg-[#FFE57A] rounded-lg brutal-shadow-sm"
+                  className="bg-primary text-primary-foreground border-2 border-border font-bold hover:bg-primary/90 rounded-lg brutal-shadow-sm"
                 >
                   <Calendar className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Add to Calendar
@@ -223,7 +227,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   size="sm" 
                   variant="outline" 
                   onClick={handleGetDirections} 
-                  className="bg-white text-black border-2 border-black font-bold hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+                  className="bg-card text-foreground border-2 border-border font-bold hover:bg-secondary rounded-lg brutal-shadow-sm"
                 >
                   <Navigation className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Directions
@@ -232,7 +236,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   size="sm" 
                   variant="outline" 
                   onClick={handleShare} 
-                  className="bg-white text-black border-2 border-black font-bold hover:bg-gray-100 rounded-lg brutal-shadow-sm"
+                  className="bg-card text-foreground border-2 border-border font-bold hover:bg-secondary rounded-lg brutal-shadow-sm"
                 >
                   <Share2 className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Share

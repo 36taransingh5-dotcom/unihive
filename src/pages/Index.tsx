@@ -66,7 +66,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen mesh-gradient-bg">
+    <div className="min-h-screen bg-background">
       <Header />
       <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
       
