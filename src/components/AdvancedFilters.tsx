@@ -85,10 +85,10 @@ export function AdvancedFilters({
       {/* Free Food Button */}
       <button
         onClick={() => onFiltersChange({ ...filters, freeFoodOnly: !filters.freeFoodOnly })}
-        className={`h-9 px-4 rounded-xl border-2 border-black font-bold text-sm whitespace-nowrap transition-all duration-150 ${
+        className={`h-9 px-4 rounded-xl border-2 border-border font-bold text-sm whitespace-nowrap transition-all duration-150 ${
           filters.freeFoodOnly
-            ? 'bg-[#bef264] translate-x-[2px] translate-y-[2px] shadow-none'
-            : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+            ? 'bg-[#bef264] text-black translate-x-[2px] translate-y-[2px] shadow-none'
+            : 'bg-card text-foreground brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px]'
         }`}
       >
         {filters.freeFoodOnly ? '🍕 Free Food Only' : '🍕 Free Food'}

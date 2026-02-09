@@ -93,7 +93,7 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
     <div className="space-y-3">
       {/* AI Command Center - Neo-Brutalist */}
       <div 
-        className="bg-white border-2 border-black rounded-xl transition-all duration-150"
+        className="bg-card border-2 border-border rounded-xl transition-all duration-150 dark:border-[#d946ef] dark:bg-[#020617]"
         style={{ boxShadow: '4px 4px 0px 0px #d946ef' }}
       >
         <div className="relative flex items-center">
@@ -105,14 +105,14 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={`Ask Hive... "${placeholderExamples[placeholderIndex]}"`}
-            className="pl-12 pr-16 h-14 bg-transparent border-0 rounded-xl font-medium text-black placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="pl-12 pr-16 h-14 bg-transparent border-0 rounded-xl font-medium text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <button
             onClick={handleAsk}
             disabled={!query.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-3 rounded-lg bg-[#FFDE59] border-2 border-black flex items-center justify-center transition-all duration-150 hover:translate-x-[1px] hover:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-3 rounded-lg bg-primary border-2 border-border flex items-center justify-center transition-all duration-150 hover:translate-x-[1px] hover:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className={`w-5 h-5 text-black ${isLoading ? 'animate-pulse' : ''}`} strokeWidth={2.5} />
+            <Send className={`w-5 h-5 text-primary-foreground ${isLoading ? 'animate-pulse' : ''}`} strokeWidth={2.5} />
           </button>
         </div>
       </div>
