@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import EventForm from "./pages/EventForm";
 import NotFound from "./pages/NotFound";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
