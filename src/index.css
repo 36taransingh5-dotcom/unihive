@@ -78,22 +78,22 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 0 0% 2%;
     --foreground: 0 0% 100%;
 
-    --card: 217 33% 17%;
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 217 33% 17%;
+    --popover: 0 0% 7%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 48 100% 67%;
     --primary-foreground: 0 0% 0%;
 
-    --secondary: 217 33% 22%;
+    --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 217 33% 25%;
+    --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
 
     --accent: 48 100% 67%;
@@ -102,18 +102,18 @@
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 82 85% 67%;
-    --input: 82 85% 67%;
-    --ring: 82 85% 67%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 292 91% 73%;
 
-    --sidebar-background: 222 47% 11%;
+    --sidebar-background: 0 0% 2%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent: 0 0% 7%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 82 85% 67%;
-    --sidebar-ring: 82 85% 67%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 292 91% 73%;
   }
 }
 
@@ -133,10 +133,10 @@
 
   .dark body,
   :root.dark body {
-    background-color: hsl(222 47% 11%);
+    background-color: hsl(0 0% 2%);
     background-image: 
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 }
@@ -224,40 +224,45 @@
   }
 }
 
-/* Dark mode brutalist shadows - Neon Cyberpunk */
+/* Dark mode brutalist shadows - Cyberpunk Glow */
 .dark .brutal-shadow {
-  box-shadow: 4px 4px 0px 0px #db2777;
+  box-shadow: 0px 0px 20px rgba(217, 70, 239, 0.15);
 }
 
 .dark .brutal-shadow-sm {
-  box-shadow: 2px 2px 0px 0px #db2777;
+  box-shadow: 0px 0px 12px rgba(217, 70, 239, 0.1);
 }
 
 .dark .brutal-card {
   @apply bg-card;
-  border-color: hsl(82 85% 67%);
-  box-shadow: 4px 4px 0px 0px #db2777;
+  border-color: hsl(0 0% 20%);
+  box-shadow: 0px 0px 20px rgba(217, 70, 239, 0.15);
 }
 
 .dark .brutal-button {
   @apply bg-card text-white;
-  border-color: hsl(82 85% 67%);
-  box-shadow: 3px 3px 0px 0px #db2777;
+  border-color: hsl(0 0% 20%);
+  box-shadow: 0px 0px 12px rgba(217, 70, 239, 0.1);
 }
 
 .dark .brutal-button-primary {
-  border-color: hsl(82 85% 67%);
-  box-shadow: 3px 3px 0px 0px #db2777;
+  border-color: hsl(0 0% 20%);
+  box-shadow: 0px 0px 12px rgba(217, 70, 239, 0.1);
 }
 
 .dark .brutal-input {
   @apply bg-card;
-  border-color: hsl(82 85% 67%);
-  box-shadow: 3px 3px 0px 0px #db2777;
+  border-color: hsl(0 0% 20%);
+  box-shadow: 0px 0px 12px rgba(217, 70, 239, 0.1);
 }
 
 .dark .brutal-tag {
-  border-color: hsl(82 85% 67%);
+  border-color: hsl(0 0% 30%);
+}
+
+/* Neon text glow for category pills */
+.neon-text-glow {
+  text-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
 }
 
 /* Hide scrollbar for filter bar */

@@ -3,6 +3,7 @@ import { Sparkles, Send, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
+import { useTheme } from '@/hooks/useTheme';
 import type { Event } from '@/types/event';
 
 interface AskHiveProps {
@@ -26,6 +27,7 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
   const [error, setError] = useState<string | null>(null);
   const [hasActiveFilter, setHasActiveFilter] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const { isDarkMode } = useTheme();
 
   // Cycle through placeholder examples
   useEffect(() => {
@@ -93,8 +95,8 @@ export function AskHive({ events, onFilterEvents }: AskHiveProps) {
     <div className="space-y-3">
       {/* AI Command Center - Neo-Brutalist */}
       <div 
-        className="bg-card border-2 border-border rounded-xl transition-all duration-150 dark:border-[#d946ef] dark:bg-[#020617]"
-        style={{ boxShadow: '4px 4px 0px 0px #d946ef' }}
+        className="bg-card border-2 border-border rounded-xl transition-all duration-150 dark:border-purple-500/50 dark:bg-black/50 dark:backdrop-blur-md dark:shadow-[0px_0px_20px_rgba(217,70,239,0.15)]"
+        style={{ boxShadow: isDarkMode ? undefined : '4px 4px 0px 0px #d946ef' }}
       >
         <div className="relative flex items-center">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">

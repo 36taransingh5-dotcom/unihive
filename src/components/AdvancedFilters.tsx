@@ -46,7 +46,7 @@ export function AdvancedFilters({
           onFiltersChange({ ...filters, societyId: value === 'all' ? null : value })
         }
       >
-        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm">
+        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm dark:bg-black/50 dark:backdrop-blur-md dark:border-purple-500/50">
           <SelectValue placeholder="All Societies" />
         </SelectTrigger>
         <SelectContent className="bg-popover border-border z-50">
@@ -69,7 +69,7 @@ export function AdvancedFilters({
           })
         }
       >
-        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm">
+        <SelectTrigger className="w-auto min-w-[140px] h-9 rounded-xl bg-card border-border text-sm dark:bg-black/50 dark:backdrop-blur-md dark:border-purple-500/50">
           <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent className="bg-popover border-border z-50">
@@ -85,9 +85,9 @@ export function AdvancedFilters({
       {/* Free Food Button */}
       <button
         onClick={() => onFiltersChange({ ...filters, freeFoodOnly: !filters.freeFoodOnly })}
-        className={`h-9 px-4 rounded-xl border-2 border-border font-bold text-sm whitespace-nowrap transition-all duration-150 ${
+        className={`h-9 px-4 rounded-xl border-2 border-border font-bold text-sm whitespace-nowrap transition-all duration-150 dark:border-purple-500/50 dark:bg-black/50 dark:backdrop-blur-md ${
           filters.freeFoodOnly
-            ? 'bg-[#bef264] text-black translate-x-[2px] translate-y-[2px] shadow-none'
+            ? 'bg-[#bef264] text-black translate-x-[2px] translate-y-[2px] shadow-none dark:shadow-[0px_0px_10px_#22d3ee]'
             : 'bg-card text-foreground brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px]'
         }`}
       >
