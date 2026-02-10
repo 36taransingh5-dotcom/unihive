@@ -12,7 +12,7 @@ export function SmartTag({ tag, className }: SmartTagProps) {
   return (
     <span
       className={cn(
-        'rounded-full px-3 py-1 text-xs font-bold border-2 border-black uppercase tracking-wide',
+        'rounded-full px-3 py-1 text-xs font-bold border-2 border-black uppercase tracking-wide dark:border-gray-700',
         colors.bg,
         colors.text,
         className

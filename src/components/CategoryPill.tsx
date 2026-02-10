@@ -10,7 +10,7 @@ export function CategoryPill({ category }: CategoryPillProps) {
   
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-transparent text-foreground border-2 ${style.borderColor}`}
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-transparent text-foreground border-2 ${style.borderColor} dark:text-white dark:neon-text-glow`}
     >
       {style.label}
     </span>

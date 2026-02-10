@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 import { Header } from '@/components/Header';
 import { FilterBar } from '@/components/FilterBar';
 import { TimeStreamFeed } from '@/components/TimeStreamFeed';
@@ -23,6 +24,7 @@ const Index = () => {
   const { data: events = [], isLoading } = useEvents();
   const { data: societies = [] } = useSocieties();
   const { user } = useAuth();
+  const { isDarkMode } = useTheme();
 
   // Apply all filters
   const filteredEvents = useMemo(() => {
@@ -66,7 +68,11 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Ambient glow blob for dark mode */}
+      {isDarkMode && (
+        <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px] pointer-events-none z-0" />
+      )}
       <Header />
       <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
       

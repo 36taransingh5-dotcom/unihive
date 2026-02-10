@@ -10,7 +10,7 @@ export function Header() {
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b-2 border-border">
+    <header className="sticky top-0 z-50 bg-background border-b-2 border-border dark:bg-black/50 dark:backdrop-blur-md dark:border-gray-800">
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 

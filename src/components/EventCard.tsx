@@ -25,9 +25,9 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
   const { isDarkMode } = useTheme();
   const societyName = event.societies?.name || 'Unknown Society';
 
-  // Get category-based shadow color — use magenta glow in dark mode
+  // Get category-based shadow color — use soft purple glow in dark mode
   const shadowStyle = useMemo(() => 
-    isDarkMode ? '4px 4px 0px 0px #db2777' : getCategoryShadow(event.category), 
+    isDarkMode ? '0px 0px 20px rgba(217,70,239,0.15)' : getCategoryShadow(event.category), 
     [event.category, isDarkMode]
   );
 
@@ -92,7 +92,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.12, delay: index * 0.04 }}
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-card border-2 border-border rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] dark:border-[#bef264]"
+      className="bg-card border-2 border-border rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] dark:border-gray-800 dark:border-b-[#d946ef]"
       style={{ 
         boxShadow: isExpanded ? 'none' : shadowStyle,
         transform: isExpanded ? 'translate(2px, 2px)' : undefined,
@@ -130,7 +130,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         {/* Bookmark Button */}
         <button
           onClick={handleBookmark}
-          className={`flex-shrink-0 w-10 h-10 border-2 border-border rounded-lg flex items-center justify-center transition-all duration-150 dark:border-[#bef264] ${
+          className={`flex-shrink-0 w-10 h-10 border-2 border-border rounded-lg flex items-center justify-center transition-all duration-150 dark:border-gray-700 ${
             isBookmarked 
               ? 'bg-foreground text-background' 
               : 'bg-card text-foreground hover:bg-secondary'
@@ -149,7 +149,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       )}
 
       {/* Bottom Row: Society Name | Date + Time | Location - COMPACT (conditional) */}
-      <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-border dark:border-[#bef264]/30">
+      <div className="flex justify-start items-center gap-3 mt-3 pt-2 border-t-2 border-border dark:border-gray-800">
         <span className="font-bold text-sm text-foreground flex-shrink-0">
           {societyName}
         </span>
@@ -178,7 +178,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
             transition={{ duration: 0.12, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="pt-4 mt-4 border-t-2 border-border dark:border-[#bef264]/30">
+            <div className="pt-4 mt-4 border-t-2 border-border dark:border-gray-800">
               {/* Hero Image */}
               {event.image_url && (
                 <div className="mb-4 -mx-4 -mt-4">
