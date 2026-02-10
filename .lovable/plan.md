@@ -1,97 +1,70 @@
 
-# Complete EventCard Rewrite and Navbar Fix
+# Cyberpunk Night Club Theme Overhaul
 
-## Overview
-This plan addresses the user's request to completely rewrite the EventCard component with a new layout structure and ensure the Navbar logo displays correctly. The Smart Tag system is already properly implemented and will be retained.
+This plan transforms the dark mode from the current "navy + neon lime" look into a sleek "matte black + neon glow" cyberpunk aesthetic.
 
-## Current State Analysis
-- **Header.tsx**: Already correctly imports and displays the Hive logo from `src/assets/hive-logo.png` with proper styling (`h-8 w-auto`). The glassmorphism effect is applied via the `glass` class.
-- **EventCard.tsx**: Has a 3-column layout (Time | Content | Badges) that doesn't match the requested vertical structure.
-- **Smart Tag System**: Fully implemented in `tagColors.ts` and `SmartTag.tsx` with correct color logic.
+## What Changes
 
-## Implementation Plan
+### 1. Global Theme: "The Void" Background
+- Background shifts from navy (#0f172a) to near-black (#050505)
+- A fixed, blurred ambient purple glow blob is added to the top-right corner of the page
+- The grid pattern in dark mode becomes even more subtle
+- All dark mode CSS variables updated: card becomes #121212, borders become gray-800, shadows become soft purple glows
 
-### 1. Header Component Verification
-The Header already uses the correct logo. If needed, I can add `object-contain` to ensure proper scaling:
-```tsx
-<img 
-  src={hiveLogo} 
-  alt="Hive Logo" 
-  className="h-8 w-auto object-contain"
-/>
-```
+### 2. Event Cards: "Matte Black" Style
+- Card background changes to #121212 (matte black surface)
+- Borders switch from neon lime to subtle dark grey (gray-800)
+- A neon pink bottom-border accent (border-b-2 border-[#d946ef]) is added for that dashboard strip look
+- Hard offset shadows replaced with a soft purple glow (0px 0px 20px rgba(217,70,239,0.15))
 
-### 2. EventCard Complete Rewrite
-Replace the current layout with a new vertical structure:
+### 3. Interactive Elements: "Lit Up" Buttons
+- Ask Hive bar and filter buttons get semi-transparent black backgrounds (bg-black/50) with backdrop blur
+- Borders become thin purple (border-purple-500/50)
+- Active/selected filter buttons glow cyan (shadow 0px 0px 10px #22d3ee)
+- Header navbar also gets the frosted glass treatment in dark mode
 
-**New Card Structure:**
-```text
-+------------------------------------------+
-| [Title (ExtraBold text-lg)]    [LIVE] ● |
-| [Smart Pills Row - tags]                 |
-| [Description - 2 line clamp]             |
-+------------------------------------------+
-| [Avatar] Society Name        Time (6:30pm)|
-+------------------------------------------+
-```
+### 4. Category Pills: Neon Tubes
+- Keep transparent background, text becomes white
+- Borders stay their category neon color (pink, green, blue, yellow)
+- Add a subtle neon text glow via drop-shadow CSS
 
-**Key Changes:**
-- Remove the current 3-column layout
-- Place Title at top-left with LIVE indicator at top-right
-- Smart Tags row immediately below title
-- Description truncated to 2 lines (using `line-clamp-2`)
-- Footer row: Society avatar (circle, w-8 h-8) + name on left, time (12h format) on right
-- Card styling: `bg-white`, `border border-slate-100`, `shadow-sm hover:shadow-md`
-- Maintain expandable functionality with hero image, map, and action buttons
+## Technical Details
 
-**Component Structure:**
-```tsx
-<motion.div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-all">
-  {/* Top Row: Title + LIVE */}
-  <div className="flex items-start justify-between">
-    <h3 className="font-extrabold text-lg">{title}</h3>
-    {isLive && <LiveIndicator />}
-  </div>
-  
-  {/* Smart Pills Row */}
-  <SmartTagList tags={tags} className="mt-2" />
-  
-  {/* Description */}
-  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{description}</p>
-  
-  {/* Footer: Avatar + Society | Time */}
-  <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-    <div className="flex items-center gap-2">
-      <Avatar className="w-8 h-8">
-        <AvatarImage src={logo_url} />
-        <AvatarFallback>{initials}</AvatarFallback>
-      </Avatar>
-      <span className="font-medium text-sm text-slate-600">{societyName}</span>
-    </div>
-    <span className="text-sm text-slate-500">{formattedTime}</span>
-  </div>
-  
-  {/* Expanded Content (existing logic) */}
-</motion.div>
-```
+### Files Modified
 
-### 3. Smart Tag System
-Already correctly implemented with:
-- Food keywords (pizza, food, snack) returning orange
-- Party keywords (party, drink, alcohol) returning purple  
-- Chill keywords (sober, coffee, study) returning blue
-- "Free" returning green
-- Deterministic hash fallback for consistent pastel colors
+**`src/index.css`** (Dark mode CSS variables + utility classes)
+- Update `.dark` variables: background to ~#050505 (HSL ~0 0% 2%), card to #121212, border to gray-800
+- Replace dark `.brutal-shadow` classes with soft glow shadows
+- Add `.dark .brutal-card` with soft purple glow instead of hard offset
+- Add `.neon-text-glow` utility class for category pill text glow effect
+- Update dark mode grid pattern to be extremely subtle
 
-### 4. Files to Modify
-| File | Action |
-|------|--------|
-| `src/components/EventCard.tsx` | Complete rewrite with new layout |
-| `src/components/Header.tsx` | Add `object-contain` class (minor fix) |
+**`src/pages/Index.tsx`**
+- Add a fixed ambient glow div (purple blob, blur-[120px]) that only renders in dark mode
+- Uses `useTheme` hook to conditionally render
 
-### Technical Notes
-- Uses existing Avatar components from `@/components/ui/avatar`
-- Maintains Framer Motion animations for staggered entrance and expand/collapse
-- Time format uses existing `format(date, 'h:mm a')` for 12-hour display
-- Society logo comes from `event.societies?.logo_url` (already in Event type)
-- Uses `line-clamp-2` utility for description truncation
+**`src/components/EventCard.tsx`**
+- In dark mode: use matte black bg, gray-800 borders, neon pink bottom border accent
+- Replace hard shadow with soft purple glow shadow
+- Remove the existing `dark:border-[#bef264]` overrides
+
+**`src/components/Header.tsx`**
+- In dark mode: frosted glass effect (bg-black/50 backdrop-blur-md) instead of solid background
+
+**`src/components/FilterBar.tsx`**
+- Dark mode buttons: bg-black/50, backdrop-blur, border-purple-500/50
+- Active state: cyan glow shadow
+
+**`src/components/AdvancedFilters.tsx`**
+- Same frosted glass treatment for dropdowns and Free Food button in dark mode
+- Active Free Food button gets cyan glow
+
+**`src/components/AskHive.tsx`**
+- Update container: bg-black/50 backdrop-blur-md, thin purple border
+- Remove the hard purple shadow in dark mode, replace with soft glow
+
+**`src/components/CategoryPill.tsx`**
+- Add `dark:text-white` and a neon text drop-shadow in dark mode
+
+**`src/components/SmartTag.tsx`**
+- Update border from black to dark:border-gray-700 so tags don't clash with matte black cards
