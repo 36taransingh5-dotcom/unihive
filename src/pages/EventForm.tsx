@@ -30,6 +30,7 @@ const eventSchema = z.object({
   date: z.string().min(1, 'Date is required'),
   startTime: z.string().min(1, 'Start time is required'),
   endTime: z.string().min(1, 'End time is required'),
+  externalLink: z.string().optional(),
 });
 
 type EventFormData = z.infer<typeof eventSchema>;
@@ -104,6 +105,7 @@ export default function EventForm() {
         setValue('date', format(new Date(data.starts_at), 'yyyy-MM-dd'));
         setValue('startTime', format(new Date(data.starts_at), 'HH:mm'));
         setValue('endTime', format(new Date(data.ends_at), 'HH:mm'));
+        setValue('externalLink', (data as any).external_link || '');
         
         // Load existing tags
         if (data.tags && data.tags.length > 0) {
@@ -151,6 +153,12 @@ export default function EventForm() {
       endsAt.setDate(endsAt.getDate() + 1);
     }
 
+    // Normalize external link
+    let externalLink: string | null = data.externalLink?.trim() || null;
+    if (externalLink && !externalLink.startsWith('http://') && !externalLink.startsWith('https://')) {
+      externalLink = `https://${externalLink}`;
+    }
+
     const baseEventData = {
       society_id: society.id,
       title: data.title,
@@ -158,6 +166,7 @@ export default function EventForm() {
       location: data.location,
       category: data.category as EventCategory,
       tags: tags.length > 0 ? tags : null,
+      external_link: externalLink,
     };
 
     let error;
@@ -328,6 +337,17 @@ export default function EventForm() {
                 />
               </div>
 
+              {/* External Sign-Up Link */}
+              <div className="space-y-2">
+                <Label htmlFor="externalLink" className="font-bold">External Sign-Up / Ticket Link (Optional)</Label>
+                <Input
+                  id="externalLink"
+                  placeholder="e.g., https://forms.gle/... or https://eventbrite.co.uk/..."
+                  {...register('externalLink')}
+                  className="bg-white border-2 border-black rounded-lg placeholder:text-gray-500"
+                  style={{ boxShadow: '3px 3px 0px 0px rgba(0,0,0,1)' }}
+                />
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">

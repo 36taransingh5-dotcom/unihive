@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Share2, Navigation, Bookmark } from 'lucide-react';
+import { MapPin, Calendar, Share2, Navigation, Bookmark, ExternalLink } from 'lucide-react';
 import { format, isWithinInterval } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { SmartTagList } from '@/components/SmartTag';
@@ -241,6 +241,22 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   <Share2 className="w-4 h-4 mr-2" strokeWidth={2.5} />
                   Share
                 </Button>
+                {event.external_link && (
+                  <a
+                    href={event.external_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Button
+                      size="sm"
+                      className="bg-[#FFDE59] text-black border-2 border-black font-bold hover:bg-[#FFE57A] rounded-lg shadow-[4px_4px_0px_0px_#000000] dark:bg-transparent dark:text-[#22d3ee] dark:border-[#22d3ee] dark:hover:bg-[#22d3ee]/10 dark:shadow-[0px_0px_15px_rgba(34,211,238,0.4)]"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" strokeWidth={2.5} />
+                      Sign Up
+                    </Button>
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>
