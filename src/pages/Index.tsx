@@ -20,7 +20,7 @@ const Index = () => {
     category: null,
     freeFoodOnly: false,
   });
-  
+
   const { data: events = [], isLoading } = useEvents();
   const { data: societies = [] } = useSocieties();
   const { user } = useAuth();
@@ -29,28 +29,28 @@ const Index = () => {
   // Apply all filters
   const filteredEvents = useMemo(() => {
     let result = filterEvents(events, activeFilter);
-    
+
     // Apply society filter
     if (advancedFilters.societyId) {
       result = result.filter(e => e.society_id === advancedFilters.societyId);
     }
-    
+
     // Apply category filter
     if (advancedFilters.category) {
       result = result.filter(e => e.category === advancedFilters.category);
     }
-    
+
     // Apply free food filter
     if (advancedFilters.freeFoodOnly) {
       result = result.filter(e => e.food_detail !== null);
     }
-    
+
     return result;
   }, [events, activeFilter, advancedFilters]);
 
-  const hasActiveAdvancedFilters = 
-    advancedFilters.societyId !== null || 
-    advancedFilters.category !== null || 
+  const hasActiveAdvancedFilters =
+    advancedFilters.societyId !== null ||
+    advancedFilters.category !== null ||
     advancedFilters.freeFoodOnly;
 
   const clearAllFilters = () => {
@@ -68,14 +68,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-transparent relative">
       {/* Ambient glow blob for dark mode */}
       {isDarkMode && (
         <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px] pointer-events-none z-0" />
       )}
       <Header />
       <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
-      
+
       <main className="container max-w-2xl mx-auto px-4 py-6 pb-safe">
         {/* Ask Hive AI Search */}
         <div className="mb-4">
@@ -97,8 +97,8 @@ const Index = () => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gradient-start" />
           </div>
         ) : (
-          <TimeStreamFeed 
-            events={filteredEvents} 
+          <TimeStreamFeed
+            events={filteredEvents}
             activeFilter={activeFilter}
             filteredEventIds={aiFilteredEventIds}
             hasAdvancedFilters={hasActiveAdvancedFilters}
