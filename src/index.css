@@ -286,6 +286,24 @@
   }
 }
 
+/* ── Landing Page ──────────────────────────────────────────────── */
+
+/* Neon glow borders revealed by flashlight */
+.dark .neon-border-glow {
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #bef264, #22d3ee) 1;
+  border-radius: 1rem;
+  box-shadow: 0 0 18px rgba(190, 242, 100, 0.25),
+    0 0 36px rgba(34, 211, 238, 0.1);
+}
+
+/* Sticker base */
+.sticker {
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* Leaflet map fix */
 .leaflet-container {
   z-index: 0;

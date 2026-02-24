@@ -12,14 +12,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background border-b-2 border-border dark:bg-black/50 dark:backdrop-blur-md dark:border-gray-800">
       <div className="container max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center">
-          <img 
-            src={hiveLogo} 
-            alt="Hive Logo" 
+        <Link to="/app" className="flex items-center">
+          <img
+            src={hiveLogo}
+            alt="Hive Logo"
             className="h-8 w-auto object-contain"
           />
         </Link>
-        
+
         <div className="flex items-center gap-2">
           {/* Dark Mode Toggle */}
           <button
@@ -36,28 +36,28 @@ export function Header() {
 
           {user ? (
             <>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                asChild 
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
                 className="font-bold border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg brutal-shadow-sm"
               >
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={signOut} 
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={signOut}
                 className="font-bold border-2 border-border bg-card text-foreground hover:bg-secondary rounded-lg brutal-shadow-sm"
               >
                 Sign Out
               </Button>
             </>
           ) : (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              asChild 
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
               className="font-bold border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg brutal-shadow-sm"
             >
               <Link to="/login">Society Login</Link>
