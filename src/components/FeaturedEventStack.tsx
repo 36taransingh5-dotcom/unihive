@@ -94,14 +94,14 @@ export function FeaturedEventStack() {
                                 animate={{
                                     opacity: 1,
                                     scale: 1 - (MOCK_FEATURED_EVENTS.length - 1 - i) * 0.05,
-                                    y: (MOCK_FEATURED_EVENTS.length - 1 - i) * -15,
-                                    rotate: (MOCK_FEATURED_EVENTS.length - 1 - i) * 2,
+                                    y: (MOCK_FEATURED_EVENTS.length - 1 - i) * -10,
+                                    rotate: (MOCK_FEATURED_EVENTS.length - 1 - i) * 1,
                                 }}
                                 exit={{
                                     opacity: 0,
-                                    x: 200,
-                                    rotate: 20,
-                                    transition: { duration: 0.3 }
+                                    x: 100,
+                                    rotate: 10,
+                                    transition: { duration: 0.2 }
                                 }}
                                 whileHover={isTop ? { scale: 1.02, y: -20 } : {}}
                                 onClick={isTop ? cycle : undefined}

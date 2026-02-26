@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, PartyPopper, MapPin, GraduationCap, Bug } from 'lucide-react';
@@ -115,6 +115,28 @@ export default function Landing() {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [isDarkMode, handleMouseMove]);
 
+    // Stabilize positions to prevent "jumping" on re-render
+    const stabilizedStickers = useMemo(() => {
+        const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const isMobile = viewportWidth < 768;
+
+        // Show fewer stickers on mobile for less clutter
+        const list = isMobile ? STICKERS.slice(0, 3) : STICKERS;
+
+        return list.map((s, idx) => {
+            const isLeft = idx % 2 === 0;
+            const baseOffset = isMobile ? viewportWidth * 0.38 : viewportWidth * 0.35;
+            const randomAdd = Math.random() * (isMobile ? 20 : 50);
+
+            return {
+                ...s,
+                x: isLeft ? -(baseOffset + randomAdd) : (baseOffset + randomAdd),
+                // Add a stable random Y offset too
+                y: s.y + (Math.random() * 40 - 20)
+            };
+        });
+    }, []);
+
     // ── Form submit ─────────────────────────────────────────────────
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -138,35 +160,24 @@ export default function Landing() {
 
             <Header />
 
-            {/* ━━━━━━━━ HERO SECTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             <section
                 ref={heroRef}
-                className="relative flex flex-col items-center justify-center min-h-[90vh] px-4 py-16 sm:py-32 overflow-hidden bg-[url('/grid.svg')] bg-[length:40px_40px]"
+                className="relative flex flex-col items-center justify-center min-h-[95vh] sm:min-h-screen px-4 py-16 sm:py-32 overflow-hidden bg-[url('/grid.svg')] bg-[length:40px_40px]"
             >
                 {/* Stickers */}
-                {STICKERS.map((s, idx) => {
-                    // Constrain to left and right 15% zones
-                    const isLeft = idx % 2 === 0;
-                    const xRange = isLeft ? [-40, -15] : [15, 40];
-                    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
-                    const constrainedX = isLeft
-                        ? -(viewportWidth * 0.35 + Math.random() * 50)
-                        : (viewportWidth * 0.35 + Math.random() * 50);
-
-                    return (
-                        <Sticker
-                            key={s.id}
-                            sticker={{ ...s, x: constrainedX }}
-                            constraintsRef={heroRef}
-                        />
-                    );
-                })}
+                {stabilizedStickers.map((s) => (
+                    <Sticker
+                        key={s.id}
+                        sticker={s}
+                        constraintsRef={heroRef}
+                    />
+                ))}
 
                 {/* Central content */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="relative z-20 text-center max-w-2xl mx-auto"
                 >
                     <h1 className="text-4xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[1.05] text-foreground mb-4">
@@ -208,10 +219,10 @@ export default function Landing() {
 
                 {/* Ticket Stack */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                    className="w-full mt-16 pb-12"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full mt-12 sm:mt-16 pb-12"
                 >
                     <FeaturedEventStack />
                 </motion.div>
