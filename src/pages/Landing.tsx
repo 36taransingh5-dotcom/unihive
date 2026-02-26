@@ -74,7 +74,7 @@ function Sticker({
             style={{ touchAction: 'none' }}
         >
             <div
-                className="w-16 h-16 md:w-20 md:h-20 rounded-2xl border-[3px] border-black dark:border-white/20 flex items-center justify-center select-none"
+                className="w-12 h-12 md:w-16 lg:w-20 rounded-xl md:rounded-2xl border-[3px] border-black dark:border-white/20 flex items-center justify-center select-none"
                 style={{
                     backgroundColor: sticker.color,
                     boxShadow: `3px 3px 0px 0px rgba(0,0,0,0.9)`,
@@ -95,6 +95,7 @@ export default function Landing() {
     const { isDarkMode } = useTheme();
     const heroRef = useRef<HTMLDivElement>(null!);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
 
     // Form state
     const [email, setEmail] = useState('');
@@ -106,6 +107,8 @@ export default function Landing() {
     }, []);
 
     useEffect(() => {
+        setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches);
+
         if (isDarkMode) {
             window.addEventListener('mousemove', handleMouseMove);
         }
@@ -124,7 +127,7 @@ export default function Landing() {
     return (
         <div className="min-h-screen bg-transparent relative overflow-hidden">
             {/* ── Dark Mode Flashlight Overlay ─────────────────────────── */}
-            {isDarkMode && (
+            {isDarkMode && !isTouchDevice && (
                 <div
                     className="fixed inset-0 pointer-events-none z-[60] transition-none"
                     style={{
@@ -138,7 +141,7 @@ export default function Landing() {
             {/* ━━━━━━━━ HERO SECTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             <section
                 ref={heroRef}
-                className="relative flex flex-col items-center justify-center min-h-[90vh] px-4 py-32 overflow-hidden bg-[url('/grid.svg')] bg-[length:40px_40px]"
+                className="relative flex flex-col items-center justify-center min-h-[90vh] px-4 py-16 sm:py-32 overflow-hidden bg-[url('/grid.svg')] bg-[length:40px_40px]"
             >
                 {/* Stickers */}
                 {STICKERS.map((s, idx) => {
@@ -166,7 +169,7 @@ export default function Landing() {
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                     className="relative z-20 text-center max-w-2xl mx-auto"
                 >
-                    <h1 className="text-6xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[1.05] text-foreground mb-4">
+                    <h1 className="text-4xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[1.05] text-foreground mb-4">
                         Soton&apos;s Social
                         <br />
                         <span
@@ -191,7 +194,7 @@ export default function Landing() {
                         whileHover={{ scale: 1.05, translateY: -4 }}
                         whileTap={{ scale: 0.96 }}
                         onClick={() => navigate('/app')}
-                        className="mt-12 inline-flex items-center gap-2 px-10 py-5 text-xl font-black rounded-xl border-[4px] border-black dark:border-white/20 bg-[#bef264] text-black transition-all duration-150"
+                        className="mt-8 sm:mt-12 inline-flex items-center gap-2 px-6 py-3 sm:px-10 sm:py-5 text-lg sm:text-xl font-black rounded-xl border-[4px] border-black dark:border-white/20 bg-[#bef264] text-black transition-all duration-150"
                         style={{
                             boxShadow: isDarkMode
                                 ? '0 0 40px rgba(190,242,100,0.45)'
@@ -226,7 +229,7 @@ export default function Landing() {
                         ✨ Try our AI search
                     </p>
                     <div
-                        className={`landing-flashlight-reveal rounded-2xl p-1 transition-opacity duration-300 ${isDarkMode ? 'opacity-0 hover:opacity-100' : ''
+                        className={`landing-flashlight-reveal rounded-2xl p-1 transition-opacity duration-300 ${isDarkMode && !isTouchDevice ? 'opacity-0 hover:opacity-100' : ''
                             } ${isDarkMode ? 'neon-border-glow' : ''}`}
                     >
                         <AskHive events={[]} onFilterEvents={() => { }} />

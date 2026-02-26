@@ -71,7 +71,7 @@ export function FeaturedEventStack() {
     };
 
     return (
-        <div className="relative w-full max-w-sm h-[320px] mx-auto mt-12 perspective-1000">
+        <div className="relative w-full max-w-[280px] sm:max-w-sm h-[280px] sm:h-[320px] mx-auto mt-8 sm:mt-12 perspective-1000">
             <AnimatePresence initial={false}>
                 {[...MOCK_FEATURED_EVENTS]
                     .map((_, i) => (index + i) % MOCK_FEATURED_EVENTS.length)
