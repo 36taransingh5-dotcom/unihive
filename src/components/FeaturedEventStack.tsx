@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { EventCard } from './EventCard';
 import type { Event } from '@/types/event';
 
-const MOCK_FEATURED_EVENTS: Event[] = [
+export const MOCK_FEATURED_EVENTS: Event[] = [
     {
         id: 'f1',
         society_id: 's1',

@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Zap, PartyPopper, MapPin, GraduationCap, Bug } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { AskHive } from '@/components/AskHive';
-import { FeaturedEventStack } from '@/components/FeaturedEventStack';
+import { useEvents } from '@/hooks/useEvents';
+import { FeaturedEventStack, MOCK_FEATURED_EVENTS } from '@/components/FeaturedEventStack';
 import { useTheme } from '@/hooks/useTheme';
 import { toast } from '@/components/ui/sonner';
 
@@ -243,7 +244,19 @@ export default function Landing() {
                         className={`landing-flashlight-reveal rounded-2xl p-1 transition-opacity duration-300 ${isDarkMode && !isTouchDevice ? 'opacity-0 hover:opacity-100' : ''
                             } ${isDarkMode ? 'neon-border-glow' : ''}`}
                     >
-                        <AskHive events={[]} onFilterEvents={() => { }} />
+                        <AskHive
+                            events={stabilizedStickers.map(s => ({ ...MOCK_FEATURED_EVENTS[0], ...s, title: s.label })) as any}
+                            onFilterEvents={(ids) => {
+                                if (ids && ids.length > 0) {
+                                    toast.info("Try this in the full app to see the results!", {
+                                        action: {
+                                            label: "Enter App",
+                                            onClick: () => navigate('/app')
+                                        }
+                                    });
+                                }
+                            }}
+                        />
                     </div>
                 </motion.div>
             </section>

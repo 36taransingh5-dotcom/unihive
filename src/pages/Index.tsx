@@ -12,9 +12,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { filterEvents } from '@/lib/eventGrouping';
 import type { FilterType, FilterState } from '@/types/event';
 
+import { useSearchParams } from 'react-router-dom';
+
 const Index = () => {
+  const [searchParams] = useSearchParams();
+  const queryIds = searchParams.get('q')?.split(',') || null;
+
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-  const [aiFilteredEventIds, setAiFilteredEventIds] = useState<string[] | null>(null);
+  const [aiFilteredEventIds, setAiFilteredEventIds] = useState<string[] | null>(queryIds);
   const [advancedFilters, setAdvancedFilters] = useState<FilterState>({
     societyId: null,
     category: null,
