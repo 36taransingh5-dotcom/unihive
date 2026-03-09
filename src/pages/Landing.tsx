@@ -9,6 +9,7 @@ import { mockEvents } from '@/data/mockEvents';
 import { useTheme } from '@/hooks/useTheme';
 import { toast } from '@/components/ui/sonner';
 import { HoneyDropCursor } from '@/components/HoneyDropCursor';
+import { supabase } from '@/integrations/supabase/client';
 
 // ── Sticker data ────────────────────────────────────────────────────
 const STICKERS = [
@@ -147,9 +148,26 @@ export default function Landing() {
     }, []);
 
     // ── Form submit ─────────────────────────────────────────────────
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email.trim() || !uniName.trim()) return;
+
+        const { error } = await supabase
+            .from('university_requests')
+            .insert([
+                {
+                    email: email.trim(),
+                    university_name: uniName.trim(),
+                    message: message.trim() || null
+                }
+            ]);
+
+        if (error) {
+            console.error('Error submitting request:', error);
+            toast.error("Oops! Something went wrong. Please try again.");
+            return;
+        }
+
         toast.success(`Request sent! We'll be in touch about ${uniName} soon.`);
         setEmail('');
         setUniName('');
