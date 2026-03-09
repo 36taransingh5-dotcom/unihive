@@ -20,16 +20,15 @@ export function useEvents() {
         .order('starts_at', { ascending: true });
 
       if (error) throw error;
-      
+
       // Combine real events with mock events for demo purposes
       const realEvents = data as Event[];
-      
-      // If there are real events, prioritize them; otherwise show mock data
-      if (realEvents.length > 0) {
-        return realEvents;
-      }
-      
-      return mockEvents;
+
+      // Filter out any mock events that might have the same ID as real events (just in case)
+      const realEventIds = new Set(realEvents.map(e => e.id));
+      const filteredMockEvents = mockEvents.filter(e => !realEventIds.has(e.id));
+
+      return [...filteredMockEvents, ...realEvents];
     },
   });
 }
