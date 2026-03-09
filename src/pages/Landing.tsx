@@ -264,7 +264,7 @@ export default function Landing() {
                         Bring Hive to Your Uni
                     </h2>
                     <p className="text-black/80 font-bold text-base md:text-lg mb-8 max-w-md leading-snug">
-                        Want to see Hive at your university? Drop your details below and we'll help you launch it.
+                        Want to see Hive at your university? Drop your details below and we'll get in touch to make it happen.
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-4 relative z-10 w-full">
