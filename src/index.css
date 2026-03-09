@@ -122,6 +122,19 @@
   }
 }
 
+/* Custom Molang Cursors */
+body {
+  cursor: url('/molang-cursor.png'), auto;
+}
+
+a,
+button,
+[role="button"],
+input[type="submit"],
+.cursor-pointer {
+  cursor: url('/molang-pointer.png'), pointer !important;
+}
+
 @layer base {
   * {
     @apply border-border;
