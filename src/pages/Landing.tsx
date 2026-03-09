@@ -315,7 +315,7 @@ export default function Landing() {
 
             {/* ── Footer ─────────────────────────────────────────────────── */}
             <footer className="relative z-20 text-center py-8 text-xs text-muted-foreground">
-                Built with 🍯 by students, for students.
+                Built with ❤️ from a student for students
             </footer>
         </div>
     );
