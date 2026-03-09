@@ -1,68 +1,7 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { EventCard } from './EventCard';
-import type { Event } from '@/types/event';
-
-export const MOCK_FEATURED_EVENTS: Event[] = [
-    {
-        id: 'f1',
-        society_id: 's1',
-        title: 'Neon Night Rave',
-        description: 'The biggest underground electronic music event of the semester. Lasers, smoke machines, and non-stop beats.',
-        location: 'The Bunker',
-        starts_at: new Date(Date.now() + 86400000 * 2).toISOString(),
-        ends_at: new Date(Date.now() + 86400000 * 2 + 14400000).toISOString(),
-        category: 'social',
-        tags: ['Music', 'Party', 'Late Night'],
-        image_url: 'https://images.unsplash.com/photo-1514525253361-ca6515f39230?w=800&q=80',
-        societies: { id: 's1', name: 'Electronic Music Society', logo_url: null },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        food_detail: null,
-        latitude: null,
-        longitude: null,
-        external_link: null
-    },
-    {
-        id: 'f2',
-        society_id: 's2',
-        title: 'Brutalist Design Lab',
-        description: 'Learn the principles of Swiss design and Brutalist aesthetics. Workshop on typography and grid systems.',
-        location: 'Design Studio 4',
-        starts_at: new Date(Date.now() + 86400000 * 5).toISOString(),
-        ends_at: new Date(Date.now() + 86400000 * 5 + 7200000).toISOString(),
-        category: 'workshop',
-        tags: ['Design', 'Learning', 'Creativity'],
-        image_url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80',
-        societies: { id: 's2', name: 'Art & Design Collective', logo_url: null },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        food_detail: null,
-        latitude: null,
-        longitude: null,
-        external_link: null
-    },
-    {
-        id: 'f3',
-        society_id: 's3',
-        title: 'Pizza & Pitches',
-        description: 'Present your startup idea in 2 minutes and win prizes. Free pizza for all attendees!',
-        location: 'Enterprise Hub',
-        starts_at: new Date(Date.now() + 86400000).toISOString(),
-        ends_at: new Date(Date.now() + 86400000 + 10800000).toISOString(),
-        category: 'social',
-        tags: ['Networking', 'Food', 'Startup'],
-        image_url: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80',
-        societies: { id: 's3', name: 'Entrepreneurship Society', logo_url: null },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        food_detail: null,
-        latitude: null,
-        longitude: null,
-        external_link: null
-    }
-];
-
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { EventCard } from "./EventCard";
+import { mockEvents as MOCK_FEATURED_EVENTS } from "@/data/mockEvents";
 export function FeaturedEventStack() {
     const [index, setIndex] = useState(0);
 
@@ -77,6 +16,9 @@ export function FeaturedEventStack() {
                     .map((_, i) => (index + i) % MOCK_FEATURED_EVENTS.length)
                     .reverse()
                     .map((eventIdx, i) => {
+                        // Limit visible rendered cards in stack for performance, max 4 cards visible at a time
+                        if ((MOCK_FEATURED_EVENTS.length - 1 - i) > 4) return null;
+
                         const isTop = i === MOCK_FEATURED_EVENTS.length - 1;
                         const event = MOCK_FEATURED_EVENTS[eventIdx];
 

@@ -5,9 +5,11 @@ import { ArrowRight, Zap, PartyPopper, MapPin, GraduationCap, Bug } from 'lucide
 import { Header } from '@/components/Header';
 import { AskHive } from '@/components/AskHive';
 import { useEvents } from '@/hooks/useEvents';
-import { FeaturedEventStack, MOCK_FEATURED_EVENTS } from '@/components/FeaturedEventStack';
+import { FeaturedEventStack } from '@/components/FeaturedEventStack';
+import { mockEvents } from '@/data/mockEvents';
 import { useTheme } from '@/hooks/useTheme';
 import { toast } from '@/components/ui/sonner';
+import { HoneyDropCursor } from '@/components/HoneyDropCursor';
 
 // ── Sticker data ────────────────────────────────────────────────────
 const STICKERS = [
@@ -119,21 +121,27 @@ export default function Landing() {
     // Stabilize positions to prevent "jumping" on re-render
     const stabilizedStickers = useMemo(() => {
         const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
         const isMobile = viewportWidth < 768;
 
         // Show fewer stickers on mobile for less clutter
         const list = isMobile ? STICKERS.slice(0, 3) : STICKERS;
 
+        // Spread stickers to outer 15% edges (approximately 35-42% offset from center)
         return list.map((s, idx) => {
             const isLeft = idx % 2 === 0;
-            const baseOffset = isMobile ? viewportWidth * 0.38 : viewportWidth * 0.35;
-            const randomAdd = Math.random() * (isMobile ? 20 : 50);
+            // Push out far from center
+            const baseOffset = isMobile ? viewportWidth * 0.40 : viewportWidth * 0.38;
+            const randomAdd = Math.random() * (isMobile ? 15 : 40);
+
+            // Stagger vertically more predictably so they border the screen height
+            const heightStep = (viewportHeight * 0.6) / list.length;
+            const verticalStart = -viewportHeight * 0.25;
 
             return {
                 ...s,
                 x: isLeft ? -(baseOffset + randomAdd) : (baseOffset + randomAdd),
-                // Add a stable random Y offset too
-                y: s.y + (Math.random() * 40 - 20)
+                y: verticalStart + (idx * heightStep) + (Math.random() * 60 - 30) // Vertical stagger with slight jitter
             };
         });
     }, []);
@@ -148,7 +156,10 @@ export default function Landing() {
     };
 
     return (
-        <div className="min-h-screen bg-transparent relative overflow-hidden">
+        <div className={`min-h-screen bg-transparent relative overflow-hidden ${!isTouchDevice ? '[&_*]:cursor-none' : ''}`}>
+            {/* ── Custom Cursor ─────────────────────────────────────────────── */}
+            <HoneyDropCursor />
+
             {/* ── Dark Mode Flashlight Overlay ─────────────────────────── */}
             {isDarkMode && !isTouchDevice && (
                 <div
@@ -245,7 +256,7 @@ export default function Landing() {
                             } ${isDarkMode ? 'neon-border-glow' : ''}`}
                     >
                         <AskHive
-                            events={stabilizedStickers.map(s => ({ ...MOCK_FEATURED_EVENTS[0], ...s, title: s.label })) as any}
+                            events={stabilizedStickers.map(s => ({ ...mockEvents[0], ...s, title: s.label })) as any}
                             onFilterEvents={(ids) => {
                                 if (ids && ids.length > 0) {
                                     toast.info("Try this in the full app to see the results!", {
