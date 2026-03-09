@@ -164,9 +164,9 @@ export default function Landing() {
             {/* ── Dark Mode Flashlight Overlay ─────────────────────────── */}
             {isDarkMode && !isTouchDevice && (
                 <div
-                    className="fixed inset-0 pointer-events-none z-[60] transition-none"
+                    className="fixed inset-0 pointer-events-none z-[60] transition-none mix-blend-multiply"
                     style={{
-                        background: `radial-gradient(circle 320px at ${mousePos.x}px ${mousePos.y}px, transparent 0%, rgba(0,0,0,0.85) 100%)`,
+                        background: `radial-gradient(circle 320px at ${mousePos.x}px ${mousePos.y}px, transparent 0%, rgba(20,10,30,0.9) 100%)`,
                     }}
                 />
             )}
@@ -199,7 +199,7 @@ export default function Landing() {
                         <span
                             className="relative inline-block"
                             style={{
-                                WebkitTextStroke: isDarkMode ? '1.5px #bef264' : undefined,
+                                WebkitTextStroke: isDarkMode ? '1.5px hsl(53 93% 63%)' : undefined,
                             }}
                         >
                             <span className="bg-gradient-to-r from-[#FFDE59] via-[#d946ef] to-[#22d3ee] bg-clip-text text-transparent">
@@ -218,10 +218,10 @@ export default function Landing() {
                         whileHover={{ scale: 1.05, translateY: -4 }}
                         whileTap={{ scale: 0.96 }}
                         onClick={() => navigate('/app')}
-                        className="mt-8 sm:mt-12 inline-flex items-center gap-2 px-6 py-3 sm:px-10 sm:py-5 text-lg sm:text-xl font-black rounded-xl border-[4px] border-black dark:border-white/20 bg-[#bef264] text-black transition-all duration-150"
+                        className="mt-8 sm:mt-12 inline-flex items-center gap-2 px-6 py-3 sm:px-10 sm:py-5 text-lg sm:text-xl font-black rounded-xl border-[4px] border-black dark:border-white bg-[#bef264] dark:bg-[hsl(53,93%,63%)] text-black transition-all duration-150"
                         style={{
                             boxShadow: isDarkMode
-                                ? '0 0 40px rgba(190,242,100,0.45)'
+                                ? '6px 6px 0px 0px hsl(270 100% 75%)'
                                 : '8px 8px 0px 0px rgba(0,0,0,1)',
                         }}
                     >

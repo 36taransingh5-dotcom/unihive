@@ -25,9 +25,9 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
   const { isDarkMode } = useTheme();
   const societyName = event.societies?.name || 'Unknown Society';
 
-  // Get category-based shadow color — use soft purple glow in dark mode
+  // Get category-based shadow color — use solid purple offset in dark mode
   const shadowStyle = useMemo(() =>
-    isDarkMode ? '0px 0px 20px rgba(217,70,239,0.15)' : getCategoryShadow(event.category),
+    isDarkMode ? '4px 4px 0px 0px hsl(270 100% 75%)' : getCategoryShadow(event.category),
     [event.category, isDarkMode]
   );
 
@@ -92,7 +92,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.12, delay: index * 0.04 }}
       onClick={() => setIsExpanded(!isExpanded)}
-      className="bg-card border-2 border-border rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] dark:border-gray-800 dark:border-b-[#d946ef]"
+      className="bg-card border-2 border-border rounded-xl p-4 cursor-pointer mb-4 transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] dark:border-white"
       style={{
         boxShadow: isExpanded ? 'none' : shadowStyle,
         transform: isExpanded ? 'translate(2px, 2px)' : undefined,
@@ -131,8 +131,8 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
         <button
           onClick={handleBookmark}
           className={`flex-shrink-0 w-10 h-10 border-2 border-border rounded-lg flex items-center justify-center transition-all duration-150 dark:border-gray-700 ${isBookmarked
-              ? 'bg-foreground text-background'
-              : 'bg-card text-foreground hover:bg-secondary'
+            ? 'bg-foreground text-background'
+            : 'bg-card text-foreground hover:bg-secondary'
             }`}
           style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,1)' }}
         >
@@ -249,7 +249,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   >
                     <Button
                       size="sm"
-                      className="bg-[#FFDE59] text-black border-2 border-black font-bold hover:bg-[#FFE57A] rounded-lg shadow-[4px_4px_0px_0px_#000000] dark:bg-transparent dark:text-[#22d3ee] dark:border-[#22d3ee] dark:hover:bg-[#22d3ee]/10 dark:shadow-[0px_0px_15px_rgba(34,211,238,0.4)]"
+                      className="bg-[#FFDE59] text-black border-2 border-black font-bold hover:bg-[#FFE57A] rounded-lg shadow-[4px_4px_0px_0px_#000000] dark:bg-[hsl(53,93%,63%)] dark:text-black dark:border-white dark:hover:bg-[hsl(53,93%,70%)] dark:shadow-[3px_3px_0px_0px_hsl(270,100%,75%)]"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" strokeWidth={2.5} />
                       Sign Up
