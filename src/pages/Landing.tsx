@@ -253,14 +253,14 @@ export default function Landing() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full mt-12 sm:mt-16 pb-12"
+                    className="w-full mt-8 sm:mt-12 pb-4"
                 >
                     <FeaturedEventStack />
                 </motion.div>
             </section>
 
             {/* ━━━━━━━━ BRING HIVE TO YOUR UNI ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section className="relative z-20 container max-w-2xl mx-auto px-4 pb-24 pt-4">
+            <section className="relative z-20 container max-w-2xl mx-auto px-4 pb-24 pt-0  -mt-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30, rotate: -1 }}
                     whileInView={{ opacity: 1, y: 0, rotate: -1 }}
