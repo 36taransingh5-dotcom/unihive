@@ -8,7 +8,6 @@ import { FeaturedEventStack } from '@/components/FeaturedEventStack';
 import { mockEvents } from '@/data/mockEvents';
 import { useTheme } from '@/hooks/useTheme';
 import { toast } from '@/components/ui/sonner';
-import { HoneyDropCursor } from '@/components/HoneyDropCursor';
 import { supabase } from '@/integrations/supabase/client';
 
 // ── Sticker data ────────────────────────────────────────────────────
@@ -175,9 +174,7 @@ export default function Landing() {
     };
 
     return (
-        <div className={`min-h-screen bg-transparent relative overflow-hidden ${!isTouchDevice ? '[&_*]:cursor-none' : ''}`}>
-            {/* ── Custom Cursor ─────────────────────────────────────────────── */}
-            <HoneyDropCursor />
+        <div className={`min-h-screen bg-transparent relative overflow-hidden`}>
 
             {/* ── Dark Mode Flashlight Overlay ─────────────────────────── */}
             {isDarkMode && !isTouchDevice && (
