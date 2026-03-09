@@ -240,32 +240,32 @@ export default function Landing() {
             </section>
 
             {/* ━━━━━━━━ BRING HIVE TO YOUR UNI ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section className="relative z-20 container max-w-3xl mx-auto px-4 pb-32 pt-8">
+            <section className="relative z-20 container max-w-2xl mx-auto px-4 pb-24 pt-4">
                 <motion.div
-                    initial={{ opacity: 0, y: 30, rotate: -2 }}
-                    whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+                    initial={{ opacity: 0, y: 30, rotate: -1 }}
+                    whileInView={{ opacity: 1, y: 0, rotate: -1 }}
                     whileHover={{ rotate: 0, scale: 1.01 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="border-[6px] border-black bg-[#FFDE59] dark:bg-amber-400 p-8 md:p-14 relative"
+                    className="border-[4px] border-black bg-[#FFDE59] dark:bg-amber-400 p-6 md:p-10 relative"
                     style={{
                         boxShadow: isDarkMode
-                            ? '0 0 50px rgba(245,158,11,0.2)'
-                            : '12px 12px 0px 0px #000',
+                            ? '0 0 40px rgba(245,158,11,0.15)'
+                            : '8px 8px 0px 0px #000',
                     }}
                 >
-                    <div className="absolute -top-8 -right-8 w-20 h-20 bg-black rounded-full flex items-center justify-center rotate-12 z-20 border-[4px] border-white dark:border-neutral-800 shadow-xl hidden sm:flex">
-                        <span className="text-4xl">🍯</span>
+                    <div className="absolute -top-6 -right-6 w-14 h-14 bg-black rounded-full flex items-center justify-center rotate-12 z-20 border-[3px] border-white dark:border-neutral-800 shadow-md hidden sm:flex">
+                        <span className="text-2xl">🍯</span>
                     </div>
 
-                    <h2 className="text-4xl md:text-6xl font-black text-black mb-4 uppercase tracking-tighter leading-none">
+                    <h2 className="text-3xl md:text-5xl font-black text-black mb-3 uppercase tracking-tighter leading-none">
                         Sweeten Your Campus
                     </h2>
-                    <p className="text-black/80 font-bold text-lg md:text-2xl mb-10 max-w-xl leading-snug">
+                    <p className="text-black/80 font-bold text-base md:text-lg mb-8 max-w-md leading-snug">
                         Want this sticky goodness at your university? Drop your details and we'll pour some honey your way.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-6 relative z-10 w-full max-w-xl">
+                    <form onSubmit={handleSubmit} className="space-y-4 relative z-10 w-full">
                         <div className="relative group">
                             <input
                                 type="email"
@@ -273,8 +273,8 @@ export default function Landing() {
                                 placeholder="you@uni.ac.uk"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-6 py-4 text-xl font-bold bg-white text-black placeholder:text-gray-400 border-[4px] border-black focus:outline-none transition-transform focus:-translate-y-1 focus:-translate-x-1"
-                                style={{ boxShadow: '6px 6px 0px 0px #000' }}
+                                className="w-full px-4 py-3 text-lg font-bold bg-white text-black placeholder:text-gray-400 border-[3px] border-black focus:outline-none transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5"
+                                style={{ boxShadow: '4px 4px 0px 0px #000' }}
                             />
                         </div>
                         <div className="relative group">
@@ -284,16 +284,16 @@ export default function Landing() {
                                 placeholder="Your University Name"
                                 value={uniName}
                                 onChange={(e) => setUniName(e.target.value)}
-                                className="w-full px-6 py-4 text-xl font-bold bg-white text-black placeholder:text-gray-400 border-[4px] border-black focus:outline-none transition-transform focus:-translate-y-1 focus:-translate-x-1"
-                                style={{ boxShadow: '6px 6px 0px 0px #000' }}
+                                className="w-full px-4 py-3 text-lg font-bold bg-white text-black placeholder:text-gray-400 border-[3px] border-black focus:outline-none transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5"
+                                style={{ boxShadow: '4px 4px 0px 0px #000' }}
                             />
                         </div>
                         <motion.button
                             type="submit"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-full py-5 mt-4 text-2xl font-black uppercase tracking-widest bg-[#bef264] text-black border-[4px] border-black flex items-center justify-center gap-3 transition-colors hover:bg-white"
-                            style={{ boxShadow: '8px 8px 0px 0px #000' }}
+                            className="w-full py-4 mt-2 text-xl font-black uppercase tracking-widest bg-[#bef264] text-black border-[3px] border-black flex items-center justify-center gap-3 transition-colors hover:bg-white"
+                            style={{ boxShadow: '6px 6px 0px 0px #000' }}
                         >
                             Drop the Honey 🍯
                         </motion.button>
