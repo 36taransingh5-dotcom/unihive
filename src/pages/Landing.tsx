@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, PartyPopper, MapPin, GraduationCap, Bug } from 'lucide-react';
 import { Header } from '@/components/Header';
-import { AskHive } from '@/components/AskHive';
 import { useEvents } from '@/hooks/useEvents';
 import { FeaturedEventStack } from '@/components/FeaturedEventStack';
 import { mockEvents } from '@/data/mockEvents';
@@ -150,7 +149,7 @@ export default function Landing() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!email.trim() || !uniName.trim()) return;
-        toast.success(`🐝 Buzzing into ${uniName} soon!`);
+        toast.success(`🍯 Pouring honey over to ${uniName} soon!`);
         setEmail('');
         setUniName('');
     };
@@ -240,84 +239,63 @@ export default function Landing() {
                 </motion.div>
             </section>
 
-            {/* ━━━━━━━━ ASK HIVE DEMO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section className="relative z-20 container max-w-xl mx-auto px-4 -mt-8 mb-16">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <p className="text-center text-sm font-bold text-muted-foreground uppercase tracking-widest mb-3">
-                        ✨ Try our AI search
-                    </p>
-                    <div
-                        className={`landing-flashlight-reveal rounded-2xl p-1 transition-opacity duration-300 ${isDarkMode && !isTouchDevice ? 'opacity-0 hover:opacity-100' : ''
-                            } ${isDarkMode ? 'neon-border-glow' : ''}`}
-                    >
-                        <AskHive
-                            events={stabilizedStickers.map(s => ({ ...mockEvents[0], ...s, title: s.label })) as any}
-                            onFilterEvents={(ids) => {
-                                if (ids && ids.length > 0) {
-                                    toast.info("Try this in the full app to see the results!", {
-                                        action: {
-                                            label: "Enter App",
-                                            onClick: () => navigate('/app')
-                                        }
-                                    });
-                                }
-                            }}
-                        />
-                    </div>
-                </motion.div>
-            </section>
-
             {/* ━━━━━━━━ BRING HIVE TO YOUR UNI ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-            <section className="relative z-20 container max-w-xl mx-auto px-4 pb-20">
+            <section className="relative z-20 container max-w-3xl mx-auto px-4 pb-32 pt-8">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, rotate: -2 }}
+                    whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+                    whileHover={{ rotate: 0, scale: 1.01 }}
                     viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 0.5 }}
-                    className="brutal-card dark:bg-card dark:border-gray-800 p-8 md:p-10"
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="border-[6px] border-black bg-[#FFDE59] dark:bg-amber-400 p-8 md:p-14 relative"
                     style={{
                         boxShadow: isDarkMode
-                            ? '0 0 30px rgba(34,211,238,0.15)'
-                            : '6px 6px 0px 0px #000',
+                            ? '0 0 50px rgba(245,158,11,0.2)'
+                            : '12px 12px 0px 0px #000',
                     }}
                 >
-                    <h2 className="text-2xl md:text-3xl font-black text-foreground mb-2">
-                        🐝 Bring Hive to Your Uni
+                    <div className="absolute -top-8 -right-8 w-20 h-20 bg-black rounded-full flex items-center justify-center rotate-12 z-20 border-[4px] border-white dark:border-neutral-800 shadow-xl hidden sm:flex">
+                        <span className="text-4xl">🍯</span>
+                    </div>
+
+                    <h2 className="text-4xl md:text-6xl font-black text-black mb-4 uppercase tracking-tighter leading-none">
+                        Sweeten Your Campus
                     </h2>
-                    <p className="text-muted-foreground text-sm mb-6">
-                        Want this for your university? Drop your details and we&apos;ll
-                        buzz over.
+                    <p className="text-black/80 font-bold text-lg md:text-2xl mb-10 max-w-xl leading-snug">
+                        Want this sticky goodness at your university? Drop your details and we'll pour some honey your way.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <input
-                            type="email"
-                            required
-                            placeholder="you@uni.ac.uk"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="brutal-input w-full px-4 py-3 text-sm font-medium bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#22d3ee] dark:bg-black dark:border-gray-700"
-                        />
-                        <input
-                            type="text"
-                            required
-                            placeholder="University Name"
-                            value={uniName}
-                            onChange={(e) => setUniName(e.target.value)}
-                            className="brutal-input w-full px-4 py-3 text-sm font-medium bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#bef264] dark:bg-black dark:border-gray-700"
-                        />
+                    <form onSubmit={handleSubmit} className="space-y-6 relative z-10 w-full max-w-xl">
+                        <div className="relative group">
+                            <input
+                                type="email"
+                                required
+                                placeholder="you@uni.ac.uk"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-6 py-4 text-xl font-bold bg-white text-black placeholder:text-gray-400 border-[4px] border-black focus:outline-none transition-transform focus:-translate-y-1 focus:-translate-x-1"
+                                style={{ boxShadow: '6px 6px 0px 0px #000' }}
+                            />
+                        </div>
+                        <div className="relative group">
+                            <input
+                                type="text"
+                                required
+                                placeholder="Your University Name"
+                                value={uniName}
+                                onChange={(e) => setUniName(e.target.value)}
+                                className="w-full px-6 py-4 text-xl font-bold bg-white text-black placeholder:text-gray-400 border-[4px] border-black focus:outline-none transition-transform focus:-translate-y-1 focus:-translate-x-1"
+                                style={{ boxShadow: '6px 6px 0px 0px #000' }}
+                            />
+                        </div>
                         <motion.button
                             type="submit"
                             whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="brutal-button-primary w-full py-3 text-base"
+                            whileTap={{ scale: 0.95 }}
+                            className="w-full py-5 mt-4 text-2xl font-black uppercase tracking-widest bg-[#bef264] text-black border-[4px] border-black flex items-center justify-center gap-3 transition-colors hover:bg-white"
+                            style={{ boxShadow: '8px 8px 0px 0px #000' }}
                         >
-                            Let&apos;s Go 🚀
+                            Drop the Honey 🍯
                         </motion.button>
                     </form>
                 </motion.div>
