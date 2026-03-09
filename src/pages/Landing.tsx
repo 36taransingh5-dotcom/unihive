@@ -102,6 +102,7 @@ export default function Landing() {
     // Form state
     const [email, setEmail] = useState('');
     const [uniName, setUniName] = useState('');
+    const [message, setMessage] = useState('');
 
     // ── Flashlight mouse tracking ───────────────────────────────────
     const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -149,9 +150,10 @@ export default function Landing() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!email.trim() || !uniName.trim()) return;
-        toast.success(`🍯 Pouring honey over to ${uniName} soon!`);
+        toast.success(`Request sent! We'll be in touch about ${uniName} soon.`);
         setEmail('');
         setUniName('');
+        setMessage('');
     };
 
     return (
@@ -259,10 +261,10 @@ export default function Landing() {
                     </div>
 
                     <h2 className="text-3xl md:text-5xl font-black text-black mb-3 uppercase tracking-tighter leading-none">
-                        Sweeten Your Campus
+                        Bring Hive to Your Uni
                     </h2>
                     <p className="text-black/80 font-bold text-base md:text-lg mb-8 max-w-md leading-snug">
-                        Want this sticky goodness at your university? Drop your details and we'll pour some honey your way.
+                        Want to see Hive at your university? Drop your details below and we'll help you launch it.
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-4 relative z-10 w-full">
@@ -288,6 +290,16 @@ export default function Landing() {
                                 style={{ boxShadow: '4px 4px 0px 0px #000' }}
                             />
                         </div>
+                        <div className="relative group">
+                            <textarea
+                                placeholder="Tell us a bit about yourself (optional)"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                rows={3}
+                                className="w-full px-4 py-3 text-lg font-bold bg-white text-black placeholder:text-gray-400 border-[3px] border-black focus:outline-none transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 resize-none"
+                                style={{ boxShadow: '4px 4px 0px 0px #000' }}
+                            />
+                        </div>
                         <motion.button
                             type="submit"
                             whileHover={{ scale: 1.02 }}
@@ -295,7 +307,7 @@ export default function Landing() {
                             className="w-full py-4 mt-2 text-xl font-black uppercase tracking-widest bg-[#bef264] text-black border-[3px] border-black flex items-center justify-center gap-3 transition-colors hover:bg-white"
                             style={{ boxShadow: '6px 6px 0px 0px #000' }}
                         >
-                            Drop the Honey 🍯
+                            Request Launch 🚀
                         </motion.button>
                     </form>
                 </motion.div>
