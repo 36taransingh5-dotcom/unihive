@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EventCard } from "./EventCard";
-import { mockEvents as MOCK_FEATURED_EVENTS } from "@/data/mockEvents";
+import { mockEvents } from "@/data/mockEvents";
+
+const DISPLAY_EVENTS = mockEvents.slice(0, 3);
+
 export function FeaturedEventStack() {
     const [index, setIndex] = useState(0);
 
     const cycle = () => {
-        setIndex((prev) => (prev + 1) % MOCK_FEATURED_EVENTS.length);
+        setIndex((prev) => (prev + 1) % DISPLAY_EVENTS.length);
     };
 
     return (
         <div className="relative w-full max-w-[280px] sm:max-w-sm h-[280px] sm:h-[320px] mx-auto mt-8 sm:mt-12 perspective-1000">
             <AnimatePresence initial={false}>
-                {[...MOCK_FEATURED_EVENTS]
-                    .map((_, i) => (index + i) % MOCK_FEATURED_EVENTS.length)
+                {[...DISPLAY_EVENTS]
+                    .map((_, i) => (index + i) % DISPLAY_EVENTS.length)
                     .reverse()
                     .map((eventIdx, i) => {
                         // Limit visible rendered cards in stack for performance, max 4 cards visible at a time
-                        if ((MOCK_FEATURED_EVENTS.length - 1 - i) > 4) return null;
+                        if ((DISPLAY_EVENTS.length - 1 - i) > 4) return null;
 
-                        const isTop = i === MOCK_FEATURED_EVENTS.length - 1;
-                        const event = MOCK_FEATURED_EVENTS[eventIdx];
+                        const isTop = i === DISPLAY_EVENTS.length - 1;
+                        const event = DISPLAY_EVENTS[eventIdx];
 
                         return (
                             <motion.div
@@ -35,9 +38,9 @@ export function FeaturedEventStack() {
                                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                                 animate={{
                                     opacity: 1,
-                                    scale: 1 - (MOCK_FEATURED_EVENTS.length - 1 - i) * 0.05,
-                                    y: (MOCK_FEATURED_EVENTS.length - 1 - i) * -10,
-                                    rotate: (MOCK_FEATURED_EVENTS.length - 1 - i) * 1,
+                                    scale: 1 - (DISPLAY_EVENTS.length - 1 - i) * 0.05,
+                                    y: (DISPLAY_EVENTS.length - 1 - i) * -10,
+                                    rotate: (DISPLAY_EVENTS.length - 1 - i) * 1,
                                 }}
                                 exit={{
                                     opacity: 0,
